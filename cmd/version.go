@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"fmt"
-	"gva/global"
 
 	"github.com/spf13/cobra"
 )
@@ -26,10 +25,8 @@ import (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "版本信息",
-	Long: `版本的长信息`,
+	Long:  `版本的长信息`,
 	Run: func(cmd *cobra.Command, args []string) {
-		path := global.Config.Mysql
-		fmt.Println(path)
 		fmt.Println("version called")
 	},
 }

@@ -23,6 +23,5 @@ import (
 func main() {
 	core.Viper()
 	core.Zap()
-	core.Gorm()
 	cmd.Execute()
 }

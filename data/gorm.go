@@ -1,4 +1,4 @@
-package core
+package data
 
 import (
 	"gva/global"
@@ -17,10 +17,10 @@ import (
 var err error
 
 // Gorm 初始化数据库并产生数据库全局变量
-func Gorm() {
+func Gorm() (db *gorm.DB) {
 	switch global.Config.System.DbType {
 	case "mysql":
-		GormMysql()
+		db = GormMysql()
 	case "postgresql":
 		GormPostgreSql()
 	case "sqlite":
@@ -28,10 +28,11 @@ func Gorm() {
 	case "sqlserver":
 		GormSqlServer()
 	}
+	return
 }
 
 // GormMysql 初始化Mysql数据库
-func GormMysql() {
+func GormMysql() (db *gorm.DB) {
 	m := global.Config.Mysql
 	dsn := m.Username + ":" + m.Password + "@tcp(" + m.Path + ")/" + m.Dbname + "?" + m.Config
 	mysqlConfig := mysql.Config{
@@ -43,14 +44,15 @@ func GormMysql() {
 		SkipInitializeWithVersion: false, // 根据版本自动配置
 	}
 	gormConfig := config(m.LogMode)
-	if global.Db, err = gorm.Open(mysql.New(mysqlConfig), gormConfig); err != nil {
+	if db, err = gorm.Open(mysql.New(mysqlConfig), gormConfig); err != nil {
 		global.Log.Info("MySQL启动异常", zap.String("err", err.Error()))
 		os.Exit(0)
 	} else {
-		sqlDB, _ := global.Db.DB()
+		sqlDB, _ := db.DB()
 		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
 		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
 	}
+	return db
 }
 
 // GormPostgreSql 初始化PostgreSql数据库

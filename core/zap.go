@@ -13,6 +13,7 @@ import (
 )
 
 var (
+	err    error
 	level  zapcore.Level
 	writer zapcore.WriteSyncer
 )

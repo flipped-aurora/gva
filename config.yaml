@@ -13,11 +13,11 @@ mysql:
   username: root
   password: 'gdkid,,..'
   path: '127.0.0.1:3306'
-  db-name: 'c'
+  db-name: 'b'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
   max-idle-conns: 10
   max-open-conns: 10
-  log-mode: false
+  log-mode: true
 
 # Postgresql connect configuration
 postgresql:
