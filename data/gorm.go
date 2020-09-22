@@ -3,7 +3,8 @@ package data
 import (
 	"gva/global"
 
-	"go.uber.org/zap"
+	"github.com/gookit/color"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
@@ -45,7 +46,7 @@ func GormMysql() (db *gorm.DB) {
 	}
 	gormConfig := config(m.LogMode)
 	if db, err = gorm.Open(mysql.New(mysqlConfig), gormConfig); err != nil {
-		global.Log.Info("MySQL启动异常", zap.String("err", err.Error()))
+		color.Warn.Printf("MySQL启动异常, err:%v\n", err)
 		os.Exit(0)
 	} else {
 		sqlDB, _ := db.DB()
@@ -65,7 +66,7 @@ func GormPostgreSql() {
 	}
 	gormConfig := config(p.Logger)
 	if global.Db, err = gorm.Open(postgres.New(postgresConfig), gormConfig); err != nil {
-		global.Log.Error("PostgreSql启动异常", zap.Any("err", err))
+		color.Warn.Printf("PostgreSql启动异常, err:%v\n", err)
 		os.Exit(0)
 	} else {
 		sqlDB, _ := global.Db.DB()
@@ -79,7 +80,7 @@ func GormSqlite() {
 	s := global.Config.Sqlite
 	gormConfig := config(s.Logger)
 	if global.Db, err = gorm.Open(sqlite.Open(s.Path), gormConfig); err != nil {
-		global.Log.Error("Sqlite启动异常", zap.Any("err", err))
+		color.Warn.Printf("Sqlite启动异常, err:%v\n", err)
 		os.Exit(0)
 	} else {
 		sqlDB, _ := global.Db.DB()
@@ -93,7 +94,7 @@ func GormSqlServer() {
 	ss := global.Config.Sqlserver
 	dsn := "sqlserver://" + ss.Username + ":" + ss.Password + "@" + ss.Path + "?database=gorm"
 	if global.Db, err = gorm.Open(sqlserver.Open(dsn), &gorm.Config{}); err != nil {
-		global.Log.Error("SqlServer启动异常", zap.Any("err", err))
+		color.Warn.Printf("SqlServer启动异常, err:%v\n", err)
 		os.Exit(0)
 	} else {
 		sqlDB, _ := global.Db.DB()

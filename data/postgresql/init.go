@@ -3,14 +3,13 @@ package postgresql
 import (
 	"gva/data/datas"
 	"gva/data/model"
-	"gva/global"
 	"os"
+
+	"github.com/gookit/color"
 
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 
 	"gorm.io/gorm"
-
-	"go.uber.org/zap"
 )
 
 func InitPostgresqlData(db *gorm.DB) {
@@ -28,9 +27,10 @@ func InitPostgresqlData(db *gorm.DB) {
 	err = datas.InitExaFileUploadAndDownload(db)
 	err = InitSysDictionaryToPostgresql(db)
 	if err != nil {
-		global.Log.Error("initialize data failed", zap.Any("err", err))
+		color.Error.Printf("[Postgresql]-->初始化数据失败,err: %v\n", err)
+		os.Exit(0)
 	}
-	global.Log.Info("initialize data success")
+	color.Info.Println("[Postgresql]-->初始化数据成功")
 }
 
 func InitPostgresqlTables(db *gorm.DB) {
@@ -57,8 +57,8 @@ func InitPostgresqlTables(db *gorm.DB) {
 		model.SysDictionaryToPostgresql{},
 	)
 	if err != nil {
-		global.Log.Error("register table failed", zap.Any("err", err))
+		color.Error.Printf("[Postgresql]-->初始化数据表失败,err: %v\n", err)
 		os.Exit(0)
 	}
-	global.Log.Info("register table success")
+	color.Info.Println("[Postgresql]-->初始化数据表成功")
 }

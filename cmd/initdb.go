@@ -16,11 +16,13 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	"gva/core"
 	"gva/data"
 	"gva/data/mysql"
 	"gva/data/postgresql"
 	"gva/global"
+
+	"github.com/gookit/color"
 
 	"github.com/spf13/cobra"
 )
@@ -28,14 +30,16 @@ import (
 // initdbCmd represents the initdb command
 var initdbCmd = &cobra.Command{
 	Use:   "initdb",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "gin-vue-admin初始化数据",
+	Long: `gin-vue-admin初始化数据适配数据库情况: 
+1. mysql完美适配,
+2. postgresql不能保证完美适配,
+3. sqlite未适配,
+4. sqlserver未适配`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if path, _ := cmd.Flags().GetString("path"); path != "" {
+			core.Viper(path)
+		}
 		db := data.Gorm()
 		if global.Config.System.DbType == "" {
 			dbType, _ := cmd.Flags().GetString("type")
@@ -49,15 +53,15 @@ to quickly create a Cobra application.`,
 			postgresql.InitPostgresqlTables(db)
 			postgresql.InitPostgresqlData(db)
 		case "sqlite":
-			fmt.Println("功能开发中")
+			color.Info.Println("功能开发中")
 		case "sqlserver":
-			fmt.Println("功能开发中")
+			color.Info.Println("功能开发中")
 		default:
-			fmt.Println("功能开发中")
+			color.Info.Println("功能开发中")
 		}
 		frame, _ := cmd.Flags().GetString("frame")
 		if frame == "gf" {
-			fmt.Println("功能开发中")
+			color.Info.Println("功能开发中")
 			return
 		} else {
 			return
@@ -67,6 +71,7 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(initdbCmd)
+	initdbCmd.Flags().StringP("path", "p", "./config.yaml", "自定配置文件路径(绝对路径)")
 	initdbCmd.Flags().StringP("frame", "f", "gin", "可选参数为gin,gf")
 	initdbCmd.Flags().StringP("type", "t", "mysql", "可选参数为mysql,postgresql,sqlite,sqlserver")
 }

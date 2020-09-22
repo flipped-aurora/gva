@@ -17,11 +17,8 @@ package main
 
 import (
 	"gva/cmd"
-	"gva/core"
 )
 
 func main() {
-	core.Viper()
-	core.Zap()
 	cmd.Execute()
 }

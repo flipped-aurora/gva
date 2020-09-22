@@ -3,12 +3,10 @@ package mysql
 import (
 	"gva/data/datas"
 	"gva/data/model"
-	"gva/global"
 	"os"
 
+	"github.com/gookit/color"
 	"gorm.io/gorm"
-
-	"go.uber.org/zap"
 )
 
 func InitMysqlTables(db *gorm.DB) {
@@ -32,10 +30,10 @@ func InitMysqlTables(db *gorm.DB) {
 		model.ExaFileUploadAndDownload{},
 	)
 	if err != nil {
-		global.Log.Error("register table failed", zap.Any("err", err))
+		color.Warn.Printf("[Mysql]-->初始化数据表失败,err: %v\n", err)
 		os.Exit(0)
 	}
-	global.Log.Info("register table success")
+	color.Info.Println("[Mysql]-->初始化数据表成功")
 }
 
 func InitMysqlData(db *gorm.DB) {
@@ -53,7 +51,8 @@ func InitMysqlData(db *gorm.DB) {
 	err = datas.InitSysDictionaryDetail(db)
 	err = datas.InitExaFileUploadAndDownload(db)
 	if err != nil {
-		global.Log.Error("initialize data failed", zap.Any("err", err))
+		color.Warn.Printf("[Mysql]-->初始化数据失败,err: %v\n", err)
+		os.Exit(0)
 	}
-	global.Log.Info("initialize data success")
+	color.Info.Println("[Mysql]-->初始化数据成功")
 }

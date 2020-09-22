@@ -17,7 +17,7 @@ mysql:
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
   max-idle-conns: 10
   max-open-conns: 10
-  log-mode: true
+  log-mode: false
 
 # Postgresql connect configuration
 postgresql:
