@@ -400,6 +400,12 @@ func InitSysDataAuthorityId(db *gorm.DB) (err error) {
 		{"9528", "8881"},
 		{"9528", "9528"},
 	}
+	if tx.Migrator().HasTable("sys_data_authority_ids") {
+		if tx.Table("sys_data_authority_ids").Create(&insert).Error != nil { // 遇到错误时回滚事务
+			tx.Rollback()
+		}
+		return tx.Commit().Error
+	}
 	if tx.Table("sys_data_authority_id").Create(&insert).Error != nil { // 遇到错误时回滚事务
 		tx.Rollback()
 	}

@@ -30,16 +30,14 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "gva",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-________  ____   ____    _____
- /  _____/  \   \ /   /   /  _  \
-/   \  ___   \   Y   /   /  /_\  \
-\    \_\  \   \     /   /    |    \
- \______  /    \___/    \____|__  /
-        \/                      \/
+	Short: "这是一款amazing的终端工具",
+	Long: `欢迎使用gva终端工具
+ ________ ____   ____   _____   
+ /  _____/ \   \ /   /  /  _  \  
+/   \  ___  \   Y   /  /  /_\  \ 
+\    \_\  \  \     /  /    |    \
+ \______  /   \___/   \____|__  /
+        \/                    \/ 
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
