@@ -16,11 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/flipped-aurora/gva-ctl/core"
-	"github.com/flipped-aurora/gva-ctl/data"
-	"github.com/flipped-aurora/gva-ctl/data/mysql"
-	"github.com/flipped-aurora/gva-ctl/data/postgresql"
-	"github.com/flipped-aurora/gva-ctl/global"
+	"github.com/flipped-aurora/gva/core"
+	"github.com/flipped-aurora/gva/data"
+	"github.com/flipped-aurora/gva/data/mysql"
+	"github.com/flipped-aurora/gva/data/postgresql"
+	"github.com/flipped-aurora/gva/global"
 	"github.com/gookit/color"
 
 	"github.com/spf13/cobra"

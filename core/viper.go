@@ -3,7 +3,7 @@ package core
 import (
 	"os"
 
-	"github.com/flipped-aurora/gva-ctl/global"
+	"github.com/flipped-aurora/gva/global"
 
 	"github.com/gookit/color"
 

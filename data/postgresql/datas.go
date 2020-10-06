@@ -3,7 +3,7 @@ package postgresql
 import (
 	"time"
 
-	"github.com/flipped-aurora/gva-ctl/data/model"
+	"github.com/flipped-aurora/gva/data/model"
 
 	"gorm.io/gorm"
 )
