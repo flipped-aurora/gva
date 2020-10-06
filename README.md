@@ -1,35 +1,11 @@
 # 介绍
 gva-ctl:一个友好的终端工具，方便使用 [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) 项目
 
-# 通过 `go get` 获取终端工具
+# install
 
 ```go
 go get github.com/flipped-aurora/gva
 ``` 
-
-# 构建终端工具
-Mac系统可使用Makefile进行打包应用
-```shell script
-git clone https://github.com/flipped-aurora/gva-ctl.git
-make mac-build
-mv gva $GOPATH/bin/gva
-```
-
-Linux系统也可使用Makefile进行打包应用
-```shell script
-git clone https://github.com/flipped-aurora/gva-ctl.git
-make linux-build
-mv gva $GOPATH/bin/gva
-```
-
-windows系统用户
-- 很抱歉不支持使用Makefile的命令(这不是项目不支持Makefile,而是windows系统不支持的,请谅解!)
-- 你可以使用以下命令进行构建终端
-```shell script
-git clone https://github.com/flipped-aurora/gva-ctl.git
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o gva.exe
-mv gva $GOPATH/bin/gva
-```
 
 # 贡献指南
 - Issue
@@ -55,7 +31,7 @@ git clone https://github.com/flipped-aurora/gin-vue-admin.git
 cd server
 ```
 - 按需修改 [server](https://github.com/flipped-aurora/gin-vue-admin/tree/master/server) 的 [config.yaml](https://github.com/flipped-aurora/gin-vue-admin/blob/master/server/config.yaml) 文件
-- 修改完成后使用 [gva](#构建终端工具) 终端工具进行生成表和初始数据
+- 修改完成后使用 [gva](#install) 终端工具进行生成表和初始数据
 ```shell script
 gva initdb
 # 当你看以下文本输出就代表初始化成功了
