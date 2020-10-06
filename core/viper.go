@@ -1,8 +1,9 @@
 package core
 
 import (
-	"gva/global"
 	"os"
+
+	"github.com/flipped-aurora/gva-ctl/global"
 
 	"github.com/gookit/color"
 

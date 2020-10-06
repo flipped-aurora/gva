@@ -1,8 +1,7 @@
 package data
 
 import (
-	"gva/global"
-
+	"github.com/flipped-aurora/gva-ctl/global"
 	"github.com/gookit/color"
 
 	"gorm.io/driver/mysql"

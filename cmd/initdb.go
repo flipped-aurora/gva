@@ -16,12 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"gva/core"
-	"gva/data"
-	"gva/data/mysql"
-	"gva/data/postgresql"
-	"gva/global"
-
+	"github.com/flipped-aurora/gva-ctl/core"
+	"github.com/flipped-aurora/gva-ctl/data"
+	"github.com/flipped-aurora/gva-ctl/data/mysql"
+	"github.com/flipped-aurora/gva-ctl/data/postgresql"
+	"github.com/flipped-aurora/gva-ctl/global"
 	"github.com/gookit/color"
 
 	"github.com/spf13/cobra"

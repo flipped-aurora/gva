@@ -15,9 +15,7 @@ limitations under the License.
 */
 package main
 
-import (
-	"gva/cmd"
-)
+import "github.com/flipped-aurora/gva-ctl/cmd"
 
 func main() {
 	cmd.Execute()

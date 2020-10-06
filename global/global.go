@@ -1,8 +1,7 @@
 package global
 
 import (
-	"gva/config"
-
+	"github.com/flipped-aurora/gva-ctl/config"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )

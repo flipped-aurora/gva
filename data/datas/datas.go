@@ -1,8 +1,9 @@
 package datas
 
 import (
-	"gva/data/model"
 	"time"
+
+	"github.com/flipped-aurora/gva-ctl/data/model"
 
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	uuid "github.com/satori/go.uuid"

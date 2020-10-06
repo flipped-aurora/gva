@@ -1,9 +1,10 @@
 package mysql
 
 import (
-	"gva/data/datas"
-	"gva/data/model"
 	"os"
+
+	"github.com/flipped-aurora/gva-ctl/data/datas"
+	"github.com/flipped-aurora/gva-ctl/data/model"
 
 	"github.com/gookit/color"
 	"gorm.io/gorm"
