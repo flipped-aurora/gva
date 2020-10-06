@@ -1,6 +1,12 @@
 # 介绍
 gva-ctl:一个友好的终端工具，方便使用 [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) 项目
 
+# 通过 `go get` 获取终端工具
+
+```go
+go get github.com/flipped-aurora/gva
+``` 
+
 # 构建终端工具
 Mac系统可使用Makefile进行打包应用
 ```shell script

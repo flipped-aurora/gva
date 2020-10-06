@@ -14,7 +14,6 @@ require (
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.7.1
 	github.com/tebeka/strftime v0.1.5 // indirect
-	go.uber.org/zap v1.10.0
 	gorm.io/driver/mysql v0.3.0
 	gorm.io/driver/postgres v0.2.6
 	gorm.io/driver/sqlite v1.1.3
