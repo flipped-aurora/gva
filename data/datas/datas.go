@@ -77,6 +77,8 @@ func InitSysApi(db *gorm.DB) (err error) {
 		{gorm.Model{ID: 63, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/simpleUploader/checkFileMd5", "文件完整度验证", "simpleUploader", "GET"},
 		{gorm.Model{ID: 64, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/simpleUploader/mergeFileMd5", "上传完成合并文件", "simpleUploader", "GET"},
 		{gorm.Model{ID: 65, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/user/setUserInfo", "设置用户信息", "user", "PUT"},
+		{gorm.Model{ID: 66, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/system/getServerInfo", "获取服务器信息", "system", "POST"},
+		{gorm.Model{ID: 67, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/email/emailTest", "发送测试邮件", "email", "POST"},
 	}
 	if tx.Create(&insert).Error != nil { // 遇到错误时回滚事务
 		tx.Rollback()
@@ -177,6 +179,7 @@ func InitCasbinModel(db *gorm.DB) (err error) {
 		{PType: "p", V0: "888", V1: "/sysOperationRecord/getSysOperationRecordList", V2: "GET"},
 		{PType: "p", V0: "888", V1: "/sysOperationRecord/deleteSysOperationRecordByIds", V2: "DELETE"},
 		{PType: "p", V0: "888", V1: "/user/setUserInfo", V2: "PUT"},
+		{PType: "p", V0: "888", V1: "/email/emailTest", V2: "POST"},
 		{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
 		{PType: "p", V0: "8881", V1: "/base/register", V2: "POST"},
 		{PType: "p", V0: "8881", V1: "/api/createApi", V2: "POST"},
@@ -301,6 +304,7 @@ func InitSysBaseMenus(db *gorm.DB) (err error) {
 		{Model: gorm.Model{ID: 24, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, Hidden: false, ParentId: "3", Path: "operation", Name: "operation", Component: "view/superAdmin/operation/sysOperationRecord.vue", Sort: 6, Meta: model.Meta{Title: "操作历史", Icon: "time"}},
 		{Model: gorm.Model{ID: 25, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, Hidden: false, ParentId: "9", Path: "simpleUploader", Name: "simpleUploader", Component: "view/example/simpleUploader/simpleUploader", Sort: 6, Meta: model.Meta{Title: "断点续传（插件版）", Icon: "upload"}},
 		{Model: gorm.Model{ID: 26, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "0", Path: "https://www.gin-vue-admin.com", Name: "https://www.gin-vue-admin.com", Hidden: false, Component: "/", Sort: 0, Meta: model.Meta{Title: "官方网站", Icon: "s-home"}},
+		{Model: gorm.Model{ID: 27, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "0", Path: "state", Name: "state", Hidden: false, Component: "view/system/state.vue", Sort: 6, Meta: model.Meta{Title: "服务器状态", Icon: "cloudy"}},
 	}
 	if tx.Create(&insert).Error != nil { // 遇到错误时回滚事务
 		tx.Rollback()
