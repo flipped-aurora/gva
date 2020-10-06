@@ -1,4 +1,4 @@
-module github.com/flipped-aurora/gva-ctl
+module github.com/flipped-aurora/gva
 
 go 1.14
 
