@@ -6,7 +6,8 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
-	"gorm.io/driver/sqlite"
+
+	// "gorm.io/driver/sqlite"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -23,8 +24,8 @@ func Gorm() (db *gorm.DB) {
 		db = GormMysql()
 	case "postgresql":
 		GormPostgreSql()
-	case "sqlite":
-		GormSqlite()
+	//case "sqlite":
+	//	GormSqlite()
 	case "sqlserver":
 		GormSqlServer()
 	}
@@ -75,18 +76,18 @@ func GormPostgreSql() {
 }
 
 // GormSqlite 初始化Sqlite数据库 sqlite需要gcc支持 windows用户需要自行安装gcc 如需使用打开注释即可
-func GormSqlite() {
-	s := global.Config.Sqlite
-	gormConfig := config(s.Logger)
-	if global.Db, err = gorm.Open(sqlite.Open(s.Path), gormConfig); err != nil {
-		color.Warn.Printf("Sqlite启动异常, err:%v\n", err)
-		os.Exit(0)
-	} else {
-		sqlDB, _ := global.Db.DB()
-		sqlDB.SetMaxIdleConns(s.MaxIdleConns)
-		sqlDB.SetMaxOpenConns(s.MaxOpenConns)
-	}
-}
+//func GormSqlite() {
+//	s := global.Config.Sqlite
+//	gormConfig := config(s.Logger)
+//	if global.Db, err = gorm.Open(sqlite.Open(s.Path), gormConfig); err != nil {
+//		color.Warn.Printf("Sqlite启动异常, err:%v\n", err)
+//		os.Exit(0)
+//	} else {
+//		sqlDB, _ := global.Db.DB()
+//		sqlDB.SetMaxIdleConns(s.MaxIdleConns)
+//		sqlDB.SetMaxOpenConns(s.MaxOpenConns)
+//	}
+//}
 
 // GormSqlServer 初始化SqlServer数据库
 func GormSqlServer() {
