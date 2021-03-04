@@ -1,11 +1,11 @@
 package model
 
 import (
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 type ExaFileUploadAndDownload struct {
-	global.GVA_MODEL
+	global.Model
 	Name string `json:"name" gorm:"comment:文件名"`
 	Url  string `json:"url" gorm:"comment:文件地址"`
 	Tag  string `json:"tag" gorm:"comment:文件标签"`

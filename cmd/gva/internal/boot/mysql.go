@@ -2,16 +2,16 @@ package boot
 
 import (
 	"fmt"
-	dataExtra "gva/cmd/gva/internal/data/extra"
-	dataSystem "gva/cmd/gva/internal/data/system"
+	dataExtra "github.com/flipped-aurora/gva/cmd/gva/internal/data/extra"
+	dataSystem "github.com/flipped-aurora/gva/cmd/gva/internal/data/system"
 
 	gormAdapter "github.com/casbin/gorm-adapter/v3"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/model"
 	"github.com/gookit/color"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"gva/cmd/gva/internal/global"
-	"gva/cmd/gva/internal/model"
 
 	"os"
 	"strings"
@@ -38,7 +38,7 @@ type _mysql struct {
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: gorm连接mysql数据库
 func (m *_mysql) Init(dbName ...string) {
-	if global.GVA_VP.GetBool("mysql.log-mode") {
+	if global.Viper.GetBool("mysql.log-mode") {
 		m._config.Logger = logger.Default.LogMode(logger.Info)
 	} else {
 		m._config.Logger = logger.Default.LogMode(logger.Silent)
@@ -46,12 +46,12 @@ func (m *_mysql) Init(dbName ...string) {
 	m._config.DisableForeignKeyConstraintWhenMigrating = true
 	var dsn string
 	if len(dbName) == 0 {
-		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.GVA_VP.GetString("mysql.username"),
-			global.GVA_VP.GetString("mysql.password"), global.GVA_VP.GetString("mysql.path"), global.GVA_VP.GetString("mysql.db-name"))
+		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.Viper.GetString("mysql.username"),
+			global.Viper.GetString("mysql.password"), global.Viper.GetString("mysql.path"), global.Viper.GetString("mysql.db-name"))
 	} else {
 		fmt.Println(dbName, dbName[0], dsn)
-		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.GVA_VP.GetString("mysql.username"),
-			global.GVA_VP.GetString("mysql.password"), global.GVA_VP.GetString("mysql.path"), dbName[0])
+		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.Viper.GetString("mysql.username"),
+			global.Viper.GetString("mysql.password"), global.Viper.GetString("mysql.path"), dbName[0])
 	}
 	m.db, m.err = gorm.Open(mysql.New(mysql.Config{
 		DSN:                       dsn,   // DSN data source name
@@ -61,14 +61,14 @@ func (m *_mysql) Init(dbName ...string) {
 		DontSupportRenameColumn:   true,  // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
 		SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
 	}), m._config)
-	global.GVA_DB = m.db
+	global.Db = m.db
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: gorm 同步模型 生成mysql表
 func (m *_mysql) AutoMigrateTables() {
-	if !global.GVA_DB.Migrator().HasTable("casbin_rule") {
-		m.err = global.GVA_DB.Migrator().CreateTable(&gormAdapter.CasbinRule{})
+	if !global.Db.Migrator().HasTable("casbin_rule") {
+		m.err = global.Db.Migrator().CreateTable(&gormAdapter.CasbinRule{})
 	}
 	m.err = m.db.AutoMigrate(
 		new(model.SysApi),
@@ -155,7 +155,7 @@ func (m *_mysql) InitData() {
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: 检查数据库是否存在
 func (m *_mysql) CheckDatabase() {
-	dbName := global.GVA_VP.GetString("mysql.db-name")
+	dbName := global.Viper.GetString("mysql.db-name")
 	var unknownDatabase = fmt.Sprintf("Unknown database '%v'", dbName)
 	m.Init()
 	if m.err != nil {
@@ -174,7 +174,7 @@ func (m *_mysql) CheckDatabase() {
 			color.Debug.Println("请输入指令:")
 			if n, _ := fmt.Scanln(&m.input); n != 0 {
 				if m.input == "1" {
-					if global.GVA_VP.GetString("mysql.username") == "root" {
+					if global.Viper.GetString("mysql.username") == "root" {
 						m.database()
 					} else {
 						color.Debug.Print("\n很抱歉,您的配置文件的mysql用户名配置不是root,不确定你有无权限创建数据库,为您跳过创建数据库操作,请自行创建配置文件所配置的数据库名为:")
@@ -221,7 +221,7 @@ func (m *_mysql) Info() {
 	color.Debug.Print("\n您当前的数据库版本: ")
 	color.LightGreen.Printf(" {%v} ", m.version)
 	color.Debug.Print(", 使用的数据库是: ")
-	color.LightGreen.Printf(" {%v} ", global.GVA_VP.GetString("mysql.db-name"))
+	color.LightGreen.Printf(" {%v} ", global.Viper.GetString("mysql.db-name"))
 	color.Debug.Print(", 数据库编码是: ")
 	color.LightGreen.Printf(" {%v} \n\n", m.character)
 }
@@ -230,7 +230,7 @@ func (m *_mysql) Info() {
 //@description: 获取数据库版本
 func (m *_mysql) Version() {
 	color.Debug.Println("[Mysql] -->获取数据库版本中.......")
-	if err := global.GVA_DB.Raw("SELECT VERSION() AS version;").Scan(&m.version).Error; err != nil {
+	if err := global.Db.Raw("SELECT VERSION() AS version;").Scan(&m.version).Error; err != nil {
 		color.Info.Printf("[Mysql] -->获取数据库版本失败! err: %v", err)
 		m.version = "未知版本~~~"
 	}
@@ -242,7 +242,7 @@ func (m *_mysql) Version() {
 func (m *_mysql) Character() {
 	var info DatabaseInfo
 	color.Debug.Println("\n[Mysql] -->获取数据库编码中.......")
-	if err := global.GVA_DB.Raw("show variables like 'character_set_database' ").Scan(&info).Error; err != nil {
+	if err := global.Db.Raw("show variables like 'character_set_database' ").Scan(&info).Error; err != nil {
 		color.Error.Printf("[Mysql] -->获取数据库编码失败! err:%v\n", err)
 		m.character = "未知编码~~~"
 	}
@@ -253,11 +253,11 @@ func (m *_mysql) Character() {
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: 设置配置文件的数据库编码为utf8mb4
 func (m *_mysql) utf8mb4() {
-	dbName := global.GVA_VP.GetString("mysql.db-name")
+	dbName := global.Viper.GetString("mysql.db-name")
 	color.Debug.Print("\n[Mysql] --> 设置数据库名为:")
 	color.LightGreen.Printf(" {%v} ", dbName)
 	color.Debug.Print("数据库的编码为utf8mb4中.......\n")
-	if err := global.GVA_DB.Debug().Exec("ALTER DATABASE " + dbName + " CHARACTER SET `utf8mb4` COLLATE `utf8mb4_general_ci`").Error; err != nil {
+	if err := global.Db.Debug().Exec("ALTER DATABASE " + dbName + " CHARACTER SET `utf8mb4` COLLATE `utf8mb4_general_ci`").Error; err != nil {
 		color.Debug.Print("\n[Mysql] --> 设置数据库名为:")
 		color.LightGreen.Printf(" {%v} ", dbName)
 		color.Debug.Print("数据库的编码为utf8mb4失败!请手动修改数据库名为:")
@@ -273,7 +273,7 @@ func (m *_mysql) utf8mb4() {
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: 创建配置文件的数据库
 func (m *_mysql) database() {
-	dbName := global.GVA_VP.GetString("mysql.db-name")
+	dbName := global.Viper.GetString("mysql.db-name")
 	color.Debug.Printf("\n[Mysql] --> 正在连接 mysql 数据库中.......\n")
 	m.Init("mysql")
 	if m.err != nil {
@@ -287,7 +287,7 @@ func (m *_mysql) database() {
 	color.LightGreen.Printf(" {%v} ", dbName)
 	color.Debug.Print("中.......\n")
 	sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", dbName)
-	if m.err = global.GVA_DB.Exec(sql).Error; m.err != nil {
+	if m.err = global.Db.Exec(sql).Error; m.err != nil {
 		color.Debug.Print("\n[Mysql] --> 创建数据库名为:")
 		color.LightGreen.Printf(" {%v} ", dbName)
 		color.Debug.Print("失败!请手动修改数据库名为")
@@ -307,7 +307,7 @@ func (m *_mysql) database() {
 func (m *_mysql) zero() {
 	var info DatabaseInfo
 	color.Info.Println("\n[Mysql]--> 获取数据库数据中.......")
-	if err := global.GVA_DB.Raw("show variables like 'sql_mode';").Scan(&info).Error; err != nil {
+	if err := global.Db.Raw("show variables like 'sql_mode';").Scan(&info).Error; err != nil {
 		color.Error.Printf("\n[Mysql]-->获取数据库数据失败! err:%v\n", err)
 	}
 	color.Info.Println("\n[Mysql]--> 处理数据库返回数据.......")
@@ -323,7 +323,7 @@ func (m *_mysql) zero() {
 			}
 		}
 	}
-	if err := global.GVA_DB.Exec("set global sql_mode='" + info.Value + "';").Error; err != nil {
+	if err := global.Db.Exec("set global sql_mode='" + info.Value + "';").Error; err != nil {
 		color.Error.Printf("\n[Mysql]--> 设置数据库的零值失效失败! err:%v\n", err)
 		return
 	}

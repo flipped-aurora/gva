@@ -10,7 +10,6 @@ init:
 
 gva: init
 	go build -o ${GVA} cmd/gva/main.go
-	@if [ -f ${GVA} ] ; then mv ${GVA} $GOPATH/bin && rm ${GVA} ; fi
 
 linux-build: init
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${GVA} cmd/gva/main.go

@@ -1,11 +1,11 @@
 package model
 
 import (
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 type SysBaseMenu struct {
-	global.GVA_MODEL
+	global.Model
 	MenuLevel     uint   `json:"-"`
 	ParentId      string `json:"parentId" gorm:"comment:父菜单ID"`
 	Path          string `json:"path" gorm:"comment:路由path"`
@@ -28,7 +28,7 @@ type Meta struct {
 }
 
 type SysBaseMenuParameter struct {
-	global.GVA_MODEL
+	global.Model
 	SysBaseMenuID uint
 	Type          string `json:"type" gorm:"comment:地址栏携带参数为params还是query"`
 	Key           string `json:"key" gorm:"comment:地址栏携带参数的key"`

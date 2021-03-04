@@ -1,11 +1,11 @@
 package model
 
 import (
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 type ExaCustomer struct {
-	global.GVA_MODEL
+	global.Model
 	CustomerName       string  `json:"customerName" form:"customerName" gorm:"comment:客户名"`
 	CustomerPhoneData  string  `json:"customerPhoneData" form:"customerPhoneData" gorm:"comment:客户手机号"`
 	SysUserID          uint    `json:"sysUserId" form:"sysUserId" gorm:"comment:管理ID"`

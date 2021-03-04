@@ -1,9 +1,9 @@
 package information
 
 import (
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/model"
 	"github.com/gookit/color"
-	"gva/cmd/gva/internal/global"
-	"gva/cmd/gva/internal/model"
 	"time"
 
 	"gorm.io/gorm"
@@ -22,7 +22,7 @@ var authorities = []model.SysAuthority{
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: sys_authorities 表数据初始化
 func (a *authority) Init() error {
-	return global.GVA_DB.Transaction(func(tx *gorm.DB) error {
+	return global.Db.Transaction(func(tx *gorm.DB) error {
 		if tx.Where("authority_id IN ? ", []string{"888", "9528"}).Find(&[]model.SysAuthority{}).RowsAffected == 2 {
 			color.Danger.Println("\n[Mysql] --> sys_authorities 表的初始数据已存在!")
 			return nil

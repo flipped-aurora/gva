@@ -1,11 +1,11 @@
 package model
 
 import (
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 type SysApi struct {
-	global.GVA_MODEL
+	global.Model
 	Path        string `json:"path" gorm:"comment:api路径"`
 	Description string `json:"description" gorm:"comment:api中文描述"`
 	ApiGroup    string `json:"apiGroup" gorm:"comment:api组"`

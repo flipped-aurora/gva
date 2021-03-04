@@ -1,4 +1,4 @@
-module gva
+module github.com/flipped-aurora/gva
 
 go 1.10
 

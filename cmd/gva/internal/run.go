@@ -16,8 +16,8 @@ limitations under the License.
 package internal
 
 import (
+	"github.com/flipped-aurora/gva/cmd/gva/internal/utils"
 	"github.com/spf13/cobra"
-	"gva/cmd/gva/internal/utils"
 	"os"
 )
 

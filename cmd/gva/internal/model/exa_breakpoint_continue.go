@@ -1,12 +1,12 @@
 package model
 
 import (
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 // file struct, 文件结构体
 type ExaFile struct {
-	global.GVA_MODEL
+	global.Model
 	FileName     string
 	FileMd5      string
 	FilePath     string
@@ -17,7 +17,7 @@ type ExaFile struct {
 
 // file chunk struct, 切片结构体
 type ExaFileChunk struct {
-	global.GVA_MODEL
+	global.Model
 	ExaFileID       uint
 	FileChunkNumber int
 	FileChunkPath   string

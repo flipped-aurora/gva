@@ -3,7 +3,7 @@ package information
 import (
 	"github.com/gookit/color"
 	"gorm.io/gorm"
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 var DataAuthorities = new(dataAuthorities)
@@ -26,7 +26,7 @@ var infos = []DataAuthority{
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: sys_data_authority_id 表数据初始化
 func (d *dataAuthorities) Init() error {
-	return global.GVA_DB.Table("sys_data_authority_id").Transaction(func(tx *gorm.DB) error {
+	return global.Db.Table("sys_data_authority_id").Transaction(func(tx *gorm.DB) error {
 		if tx.Where("sys_authority_authority_id IN ('888', '9528') ").Find(&[]DataAuthority{}).RowsAffected == 5 {
 			color.Danger.Println("\n[Mysql] --> sys_data_authority_id 表初始数据已存在!")
 			return nil

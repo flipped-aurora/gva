@@ -1,12 +1,12 @@
 package model
 
 import (
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 	"github.com/satori/go.uuid"
-	"gva/cmd/gva/internal/global"
 )
 
 type SysUser struct {
-	global.GVA_MODEL
+	global.Model
 	UUID        uuid.UUID    `json:"uuid" gorm:"comment:用户UUID"`
 	Username    string       `json:"userName" gorm:"comment:用户登录名"`
 	Password    string       `json:"-"  gorm:"comment:用户登录密码"`

@@ -4,7 +4,7 @@ import (
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
-	"gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 )
 
 var Casbin = new(casbin)
@@ -176,7 +176,7 @@ var carbines = []gormadapter.CasbinRule{
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: casbin_rule 表数据初始化
 func (c *casbin) Init() error {
-	return global.GVA_DB.Transaction(func(tx *gorm.DB) error {
+	return global.Db.Transaction(func(tx *gorm.DB) error {
 		if tx.Find(&[]gormadapter.CasbinRule{}).RowsAffected == 154 {
 			color.Danger.Println("\n[Mysql] --> casbin_rule 表的初始数据已存在!")
 			return nil

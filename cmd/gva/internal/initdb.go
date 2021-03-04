@@ -16,12 +16,9 @@ limitations under the License.
 package internal
 
 import (
-
-	//"github.com/flipped-aurora/gin-vue-admin/server/core"
-
+	"github.com/flipped-aurora/gva/cmd/gva/internal/boot"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
 	"github.com/gookit/color"
-	"gva/cmd/gva/internal/boot"
-	"gva/cmd/gva/internal/global"
 
 	"github.com/spf13/cobra"
 )
@@ -38,7 +35,7 @@ var initdbCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		frame, _ := cmd.Flags().GetString("frame")
 		path, _ := cmd.Flags().GetString("path")
-		global.GVA_VP = boot.Viper(path)
+		global.Viper = boot.Viper(path)
 
 		boot.Mysql.CheckDatabase()
 		boot.Mysql.CheckUtf8mb4()
@@ -46,7 +43,7 @@ var initdbCmd = &cobra.Command{
 		boot.Mysql.Init()
 		switch frame {
 		case "gin":
-			if global.GVA_VP.GetString("system.db-type") == "mysql" {
+			if global.Viper.GetString("system.db-type") == "mysql" {
 				boot.Mysql.AutoMigrateTables()
 				boot.Mysql.InitData()
 			}

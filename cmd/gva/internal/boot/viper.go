@@ -3,8 +3,8 @@ package boot
 import (
 	"flag"
 	"fmt"
+	"github.com/flipped-aurora/gva/cmd/gva/internal/constant"
 	"github.com/spf13/viper"
-	"gva/cmd/gva/internal/constant"
 	"os"
 )
 

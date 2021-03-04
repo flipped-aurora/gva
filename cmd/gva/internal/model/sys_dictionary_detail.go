@@ -1,13 +1,10 @@
-// 自动生成模板SysDictionaryDetail
 package model
 
-import (
-	"gva/cmd/gva/internal/global"
-)
+import "github.com/flipped-aurora/gva/cmd/gva/internal/global"
 
 // 如果含有time.Time 请自行import time包
 type SysDictionaryDetail struct {
-	global.GVA_MODEL
+	global.Model
 	Label           string `json:"label" form:"label" gorm:"column:label;comment:展示值"`
 	Value           int    `json:"value" form:"value" gorm:"column:value;comment:字典值"`
 	Status          *bool  `json:"status" form:"status" gorm:"column:status;comment:启用状态"`
