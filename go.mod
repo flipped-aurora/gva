@@ -1,6 +1,6 @@
 module gva
 
-go 1.16
+go 1.10
 
 require (
 	github.com/casbin/gorm-adapter/v3 v3.0.2

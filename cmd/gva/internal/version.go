@@ -24,10 +24,10 @@ import (
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "版本信息",
-	Long:  `版本的长信息`,
+	Short: "v1.0.0正式版",
+	Long:  `v1.0.0正式版`,
 	Run: func(cmd *cobra.Command, args []string) {
-		color.Green.Println("v0.0.4")
+		color.Green.Println("v1.0.0")
 	},
 }
 
