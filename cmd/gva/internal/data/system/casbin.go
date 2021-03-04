@@ -1,17 +1,17 @@
 package information
 
 import (
-	gormadapter "github.com/casbin/gorm-adapter/v3"
+	gormAdapter "github.com/casbin/gorm-adapter/v3"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
-	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 )
 
 var Casbin = new(casbin)
 
 type casbin struct{}
 
-var carbines = []gormadapter.CasbinRule{
+var carbines = []gormAdapter.CasbinRule{
 	{PType: "p", V0: "888", V1: "/base/login", V2: "POST"},
 	{PType: "p", V0: "888", V1: "/user/register", V2: "POST"},
 	{PType: "p", V0: "888", V1: "/api/createApi", V2: "POST"},
@@ -177,7 +177,7 @@ var carbines = []gormadapter.CasbinRule{
 //@description: casbin_rule 表数据初始化
 func (c *casbin) Init() error {
 	return global.Db.Transaction(func(tx *gorm.DB) error {
-		if tx.Find(&[]gormadapter.CasbinRule{}).RowsAffected == 154 {
+		if tx.Find(&[]gormAdapter.CasbinRule{}).RowsAffected == 154 {
 			color.Danger.Println("\n[Mysql] --> casbin_rule 表的初始数据已存在!")
 			return nil
 		}

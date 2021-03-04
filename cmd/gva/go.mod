@@ -3,7 +3,7 @@ module github.com/flipped-aurora/tool/cmd/gva
 go 1.11
 
 require (
-	github.com/casbin/gorm-adapter/v3 v3.2.0
+	github.com/casbin/gorm-adapter/v3 v3.0.2
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gookit/color v1.3.8
 	github.com/mitchellh/go-homedir v1.1.0
