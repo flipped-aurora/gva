@@ -1,12 +1,15 @@
 package model
 
-type Casbin struct {
-	Path        string `gorm:"column:v1"`
-	PType       string `gorm:"column:p_type"`
-	Method      string `gorm:"column:v2"`
-	AuthorityId string `gorm:"column:v0"`
+type CasbinRule struct {
+	PType string
+	V0    string
+	V1    string
+	V2    string
+	V3    string
+	V4    string
+	V5    string
 }
 
-func (c *Casbin) TableName() string {
+func (c *CasbinRule) TableName() string {
 	return "casbin_rule"
 }

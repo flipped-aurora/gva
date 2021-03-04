@@ -5,7 +5,6 @@ import (
 	dataExtra "github.com/flipped-aurora/tool/cmd/gva/internal/data/extra"
 	dataSystem "github.com/flipped-aurora/tool/cmd/gva/internal/data/system"
 
-	gormAdapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 	"github.com/flipped-aurora/tool/cmd/gva/internal/model"
 	"github.com/gookit/color"
@@ -67,16 +66,14 @@ func (m *_mysql) Init(dbName ...string) {
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: gorm 同步模型 生成mysql表
 func (m *_mysql) AutoMigrateTables() {
-	if !global.Db.Migrator().HasTable("casbin_rule") {
-		m.err = global.Db.Migrator().CreateTable(&gormAdapter.CasbinRule{})
-	}
 	m.err = m.db.AutoMigrate(
 		new(model.SysApi),
 		new(model.SysUser),
+		new(model.CasbinRule),
 		new(model.SysBaseMenu),
+		new(model.JwtBlacklist),
 		new(model.SysAuthority),
 		new(model.SysDictionary),
-		new(model.JwtBlacklist),
 		new(model.SysOperationRecord),
 		new(model.SysDictionaryDetail),
 		new(model.SysBaseMenuParameter),
