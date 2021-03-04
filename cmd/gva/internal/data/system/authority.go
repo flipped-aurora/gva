@@ -1,8 +1,8 @@
 package information
 
 import (
-	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
-	"github.com/flipped-aurora/gva/cmd/gva/internal/model"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/model"
 	"github.com/gookit/color"
 	"time"
 

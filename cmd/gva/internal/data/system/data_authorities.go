@@ -3,7 +3,7 @@ package information
 import (
 	"github.com/gookit/color"
 	"gorm.io/gorm"
-	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 )
 
 var DataAuthorities = new(dataAuthorities)

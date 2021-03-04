@@ -1,6 +1,6 @@
 package model
 
-import "github.com/flipped-aurora/gva/cmd/gva/internal/global"
+import "github.com/flipped-aurora/tool/cmd/gva/internal/global"
 
 // 如果含有time.Time 请自行import time包
 type SysDictionaryDetail struct {

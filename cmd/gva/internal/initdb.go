@@ -16,10 +16,8 @@ limitations under the License.
 package internal
 
 import (
-	"github.com/flipped-aurora/gva/cmd/gva/internal/boot"
-	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
-	"github.com/gookit/color"
-
+	"github.com/flipped-aurora/tool/cmd/gva/internal/boot"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 	"github.com/spf13/cobra"
 )
 
@@ -33,7 +31,6 @@ var initdbCmd = &cobra.Command{
 3. sqlite未适配,
 4. sqlserver未适配`,
 	Run: func(cmd *cobra.Command, args []string) {
-		frame, _ := cmd.Flags().GetString("frame")
 		path, _ := cmd.Flags().GetString("path")
 		global.Viper = boot.Viper(path)
 
@@ -41,14 +38,9 @@ var initdbCmd = &cobra.Command{
 		boot.Mysql.CheckUtf8mb4()
 		boot.Mysql.Info()
 		boot.Mysql.Init()
-		switch frame {
-		case "gin":
-			if global.Viper.GetString("system.db-type") == "mysql" {
-				boot.Mysql.AutoMigrateTables()
-				boot.Mysql.InitData()
-			}
-		case "gf":
-			color.Info.Println("gf功能开发中")
+		if global.Viper.GetString("system.db-type") == "mysql" {
+			boot.Mysql.AutoMigrateTables()
+			boot.Mysql.InitData()
 		}
 	},
 }
@@ -56,6 +48,5 @@ var initdbCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(initdbCmd)
 	initdbCmd.Flags().StringP("path", "p", "./config.yaml", "自定配置文件路径(绝对路径)")
-	initdbCmd.Flags().StringP("frame", "f", "gin", "可选参数为gin,gf")
 	initdbCmd.Flags().StringP("type", "t", "mysql", "可选参数为mysql,postgresql,sqlite,sqlserver")
 }

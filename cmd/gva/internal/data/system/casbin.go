@@ -4,7 +4,7 @@ import (
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
-	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 )
 
 var Casbin = new(casbin)

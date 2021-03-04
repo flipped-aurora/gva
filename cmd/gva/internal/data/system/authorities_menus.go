@@ -1,7 +1,7 @@
 package information
 
 import (
-	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
 )

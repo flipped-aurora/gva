@@ -16,7 +16,7 @@ limitations under the License.
 package internal
 
 import (
-	"github.com/flipped-aurora/gva/cmd/gva/internal/utils"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/utils"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -39,7 +39,7 @@ var runCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(runCmd)
+
 
 	// Here you will define your flags and configuration settings.
 

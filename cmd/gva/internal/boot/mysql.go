@@ -2,12 +2,12 @@ package boot
 
 import (
 	"fmt"
-	dataExtra "github.com/flipped-aurora/gva/cmd/gva/internal/data/extra"
-	dataSystem "github.com/flipped-aurora/gva/cmd/gva/internal/data/system"
+	dataExtra "github.com/flipped-aurora/tool/cmd/gva/internal/data/extra"
+	dataSystem "github.com/flipped-aurora/tool/cmd/gva/internal/data/system"
 
 	gormAdapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/flipped-aurora/gva/cmd/gva/internal/global"
-	"github.com/flipped-aurora/gva/cmd/gva/internal/model"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/global"
+	"github.com/flipped-aurora/tool/cmd/gva/internal/model"
 	"github.com/gookit/color"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

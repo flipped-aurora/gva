@@ -1,6 +1,6 @@
 package model
 
-import "github.com/flipped-aurora/gva/cmd/gva/internal/global"
+import "github.com/flipped-aurora/tool/cmd/gva/internal/global"
 
 type JwtBlacklist struct {
 	global.Model
