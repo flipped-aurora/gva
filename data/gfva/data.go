@@ -8,7 +8,6 @@ import (
 )
 
 func GfVueAdmin() error {
-	system.Init()
 	return interfaces.InitDb(
 		system.Api,
 		system.Menu,

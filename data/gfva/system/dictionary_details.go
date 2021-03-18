@@ -1,8 +1,8 @@
 package data
 
 import (
-	model "github.com/flipped-aurora/gva/model/gfva/system"
 	"github.com/flipped-aurora/gva/global"
+	model "github.com/flipped-aurora/gva/model/gfva/system"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
 	"time"

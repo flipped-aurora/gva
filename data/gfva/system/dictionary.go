@@ -1,8 +1,8 @@
 package data
 
 import (
-	model "github.com/flipped-aurora/gva/model/gfva/system"
 	"github.com/flipped-aurora/gva/global"
+	model "github.com/flipped-aurora/gva/model/gfva/system"
 	"time"
 
 	"github.com/gookit/color"
@@ -28,12 +28,12 @@ type dictionary struct{}
 //@description: dictionaries 表数据初始化
 func (d *dictionary) Init() error {
 	dictionaries := []model.Dictionary{
-		{Model: global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: I18nHash["Sex"], Type: "sex", Status: _true, Desc: I18nHash["SexDictionary"]},
-		{Model: global.Model{ID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: I18nHash["DBTypeInt"], Type: "int", Status: _true, Desc: I18nHash["DBTypeInt"]},
-		{Model: global.Model{ID: 3, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: I18nHash["DBTypeDateTime"], Type: "time.Time", Status: _true, Desc: I18nHash["DBTypeDateTime"]},
-		{Model: global.Model{ID: 4, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: I18nHash["DBTypeFloat"], Type: "float64", Status: _true, Desc: I18nHash["DBTypeFloat"]},
-		{Model: global.Model{ID: 5, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: I18nHash["DBTypeString"], Type: "string", Status: _true, Desc: I18nHash["DBTypeString"]},
-		{Model: global.Model{ID: 6, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: I18nHash["DBTypeBool"], Type: "bool", Status: _true, Desc: I18nHash["DBTypeBool"]},
+		{Model: global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#Sex}"), Type: "sex", Status: _true, Desc: global.I18n.T("{#SexDictionary}")},
+		{Model: global.Model{ID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeInt}"), Type: "int", Status: _true, Desc: global.I18n.T("{#DBTypeInt}")},
+		{Model: global.Model{ID: 3, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeDateTime}"), Type: "time.Time", Status: _true, Desc: global.I18n.T("{#DBTypeDateTime}")},
+		{Model: global.Model{ID: 4, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeFloat}"), Type: "float64", Status: _true, Desc: global.I18n.T("{#DBTypeFloat}")},
+		{Model: global.Model{ID: 5, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeString}"), Type: "string", Status: _true, Desc: global.I18n.T("{#DBTypeString}")},
+		{Model: global.Model{ID: 6, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeBool}"), Type: "bool", Status: _true, Desc: global.I18n.T("{#DBTypeBool}")},
 	}
 	return global.Db.Transaction(func(tx *gorm.DB) error {
 		if tx.Where("id IN ?", []int{1, 6}).Find(&[]model.Dictionary{}).RowsAffected == 2 {
