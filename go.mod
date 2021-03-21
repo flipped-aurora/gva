@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/casbin/gorm-adapter/v3 v3.0.2
 	github.com/fsnotify/fsnotify v1.4.9
-	github.com/gogf/gf v0.0.0-00010101000000-000000000000
+	github.com/gogf/gf v1.15.3
 	github.com/gookit/color v1.3.8
 	github.com/mattn/go-runewidth v0.0.10 // indirect
 	github.com/mitchellh/go-homedir v1.1.0

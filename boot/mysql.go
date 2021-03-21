@@ -41,8 +41,7 @@ func (m *_mysql) Initialize(dbName ...string) {
 	m._config.DisableForeignKeyConstraintWhenMigrating = true
 	var dsn string
 	if len(dbName) == 0 {
-		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.Viper.GetString("mysql.username"),
-			global.Viper.GetString("mysql.password"), global.Viper.GetString("mysql.path"), global.Viper.GetString("mysql.db-name"))
+		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.Viper.GetString("mysql.username"), global.Viper.GetString("mysql.password"), global.Viper.GetString("mysql.path"), global.Viper.GetString("mysql.db-name"))
 	} else {
 		fmt.Println(dbName, dbName[0], dsn)
 		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s", global.Viper.GetString("mysql.username"),
@@ -149,7 +148,7 @@ func (m *_mysql) Version() {
 		color.Info.Printf("[Mysql] -->获取数据库版本失败! err: %v", err)
 		m.version = "未知版本~~~"
 	}
-	color.Debug.Printf("\n[Mysql] -->获取数据库版本成功!\n")
+	color.Debug.Println("\n[Mysql] -->获取数据库版本成功!")
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

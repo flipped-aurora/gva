@@ -39,9 +39,7 @@ var initdbCmd = &cobra.Command{
 		switch frame {
 		case "gin":
 			boot.Viper.Initialize(path)
-			boot.Mysql.CheckDatabase()
-			boot.Mysql.CheckUtf8mb4()
-			boot.Mysql.Info()
+			boot.Mysql.Check()
 			boot.Mysql.Initialize()
 			if dbType == "mysql" {
 				if err := GinVueAdmin(); err == nil {
@@ -64,7 +62,7 @@ var initdbCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(initdbCmd)
-	initdbCmd.Flags().StringP("path", "p", "./config.yaml", "自定配置文件路径(绝对路径)")
 	initdbCmd.Flags().StringP("frame", "f", "gf", "可选参数为gin,gf")
+	initdbCmd.Flags().StringP("path", "p", "./config.yaml", "自定配置文件路径(绝对路径)")
 	initdbCmd.Flags().StringP("type", "t", "mysql", "可选参数为mysql,postgresql,sqlite,sqlserver")
 }
