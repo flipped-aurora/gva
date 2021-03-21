@@ -7,7 +7,7 @@ import (
 	"github.com/flipped-aurora/gva/interfaces"
 )
 
-func GfVueAdmin() error {
+func GinVueAdmin() error {
 	return interfaces.InitDb(
 		system.Api,
 		system.Menu,

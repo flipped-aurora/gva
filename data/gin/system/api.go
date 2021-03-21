@@ -2,12 +2,10 @@ package data
 
 import (
 	"github.com/flipped-aurora/gva/global"
-	model "github.com/flipped-aurora/gva/model/gfva/system"
-	"time"
-
+	model "github.com/flipped-aurora/gva/model/gva/system"
 	"github.com/gookit/color"
-
 	"gorm.io/gorm"
+	"time"
 )
 
 var Api = new(api)
@@ -15,9 +13,9 @@ var Api = new(api)
 type api struct{}
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
-//@description: apis 表数据初始化
+//@description: sys_apis 表数据初始化
 func (a *api) Init() error {
-	apis := []model.Api{
+	var apis = []model.SysApi{
 		{global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/base/login", global.I18n.T("{#UserLogin}"), "base", "POST"},
 		{global.Model{ID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/user/register", global.I18n.T("{#UserRegister}"), "user", "POST"},
 		{global.Model{ID: 3, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/api/createApi", global.I18n.T("{#CreateApi}"), "api", "POST"},
@@ -103,8 +101,8 @@ func (a *api) Init() error {
 		{global.Model{ID: 84, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/excel/downloadTemplate", global.I18n.T("{#DownloadTemplate}"), "excel", "GET"},
 	}
 	return global.Db.Transaction(func(tx *gorm.DB) error {
-		if tx.Where("id IN ?", []int{1, 84}).Find(&[]model.Api{}).RowsAffected == 2 {
-			color.Danger.Println("\n[Mysql] --> apis 表的初始数据已存在!")
+		if tx.Where("id IN ?", []int{1, 67}).Find(&[]model.SysApi{}).RowsAffected == 2 {
+			color.Danger.Println("\n[Mysql] --> sys_apis 表的初始数据已存在!")
 			return nil
 		}
 		if err := tx.Create(&apis).Error; err != nil { // 遇到错误时回滚事务
@@ -117,5 +115,5 @@ func (a *api) Init() error {
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: 定义表名
 func (a *api) TableName() string {
-	return "apis"
+	return "sys_apis"
 }

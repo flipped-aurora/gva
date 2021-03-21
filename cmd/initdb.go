@@ -17,8 +17,8 @@ package cmd
 
 import (
 	"github.com/flipped-aurora/gva/boot"
-	gfvaData "github.com/flipped-aurora/gva/data/gfva"
-	gvaData "github.com/flipped-aurora/gva/data/gva"
+	gfvaData "github.com/flipped-aurora/gva/data/gf"
+	gvaData "github.com/flipped-aurora/gva/data/gin"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
