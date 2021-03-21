@@ -16,9 +16,12 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"github.com/flipped-aurora/gva/boot"
 	gfvaData "github.com/flipped-aurora/gva/data/gf"
 	gvaData "github.com/flipped-aurora/gva/data/gin"
+	"github.com/flipped-aurora/gva/global"
+	"github.com/gogf/gf/i18n/gi18n"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
@@ -38,6 +41,11 @@ var initdbCmd = &cobra.Command{
 		dbType, _ := cmd.Flags().GetString("type")
 		switch frame {
 		case "gin":
+			global.I18n = gi18n.New()
+			fmt.Println(global.Viper.GetString("language"))
+			if language := global.Viper.GetString("language"); language != "" {
+				global.I18n.SetLanguage(language)
+			}
 			boot.Viper.Initialize(path)
 			boot.Mysql.Check()
 			boot.Mysql.Initialize()
@@ -49,6 +57,10 @@ var initdbCmd = &cobra.Command{
 		case "gf":
 			path = "./config/viper.yaml"
 			boot.Viper.Initialize(path)
+			fmt.Println(global.Viper.GetString("system.language"))
+			if language := global.Viper.GetString("system.language"); language != "" {
+				global.I18n.SetLanguage(language)
+			}
 			boot.Mysql.Check()
 			boot.Mysql.Initialize()
 			if dbType == "mysql" {
