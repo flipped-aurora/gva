@@ -4,10 +4,15 @@ import (
 	extra "github.com/flipped-aurora/gva/data/gf/extra"
 	system "github.com/flipped-aurora/gva/data/gf/system"
 	workflow "github.com/flipped-aurora/gva/data/gf/workflow"
+	"github.com/flipped-aurora/gva/global"
 	"github.com/flipped-aurora/gva/interfaces"
+	"gorm.io/gorm"
 )
 
-func GfVueAdmin() error {
+func GfVueAdmin(db ...*gorm.DB) error {
+	if len(db) > 0 {
+		global.Db = db[0]
+	}
 	return interfaces.InitDb(
 		system.Api,
 		system.Menu,
