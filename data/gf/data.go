@@ -8,6 +8,9 @@ import (
 	"github.com/flipped-aurora/gva/global"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/gogf/gf/i18n/gi18n"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 func GfVueAdmin(options ...data.Options) error {
@@ -15,7 +18,14 @@ func GfVueAdmin(options ...data.Options) error {
 		for _, option := range options {
 			if option.Viper != nil {
 				global.Viper = option.Viper
-				global.I18n = gi18n.New(gi18n.Options{Path: "../../i18n"})
+				path, _ := os.Getwd()
+				list := strings.Split(path, "data")
+				if len(list) >= 2 {
+					p := filepath.Join(list[0], "i18n")
+					global.I18n = gi18n.New(gi18n.Options{Path: p})
+				} else {
+					global.I18n = gi18n.New()
+				}
 				if language := global.Viper.GetString("system.language"); language != "" {
 					global.I18n.SetLanguage(language)
 				}

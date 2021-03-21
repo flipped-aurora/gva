@@ -16,9 +16,9 @@ type authority struct{}
 //@description: sys_authorities 表数据初始化
 func (a *authority) Init() error {
 	var authorities = []model.SysAuthority{
-		{CreatedAt: time.Now(), UpdatedAt: time.Now(), AuthorityId: "888", AuthorityName: global.I18n.T("{#OrdinaryUser}"), ParentId: "0", DefaultRouter: "dashboard"},
-		{CreatedAt: time.Now(), UpdatedAt: time.Now(), AuthorityId: "8881", AuthorityName: global.I18n.T("{#NormalUserSubRole}"), ParentId: "888", DefaultRouter: "dashboard"},
-		{CreatedAt: time.Now(), UpdatedAt: time.Now(), AuthorityId: "9528", AuthorityName: global.I18n.T("{#TestRole}"), ParentId: "0", DefaultRouter: "dashboard"},
+		{CreatedAt: time.Now(), UpdatedAt: time.Now(), AuthorityId: "888", AuthorityName: global.I18n.T("OrdinaryUser"), ParentId: "0", DefaultRouter: "dashboard"},
+		{CreatedAt: time.Now(), UpdatedAt: time.Now(), AuthorityId: "8881", AuthorityName: global.I18n.T("NormalUserSubRole"), ParentId: "888", DefaultRouter: "dashboard"},
+		{CreatedAt: time.Now(), UpdatedAt: time.Now(), AuthorityId: "9528", AuthorityName: global.I18n.T("TestRole"), ParentId: "0", DefaultRouter: "dashboard"},
 	}
 	return global.Db.Transaction(func(tx *gorm.DB) error {
 		if tx.Where("authority_id IN ? ", []string{"888", "9528"}).Find(&[]model.SysAuthority{}).RowsAffected == 2 {

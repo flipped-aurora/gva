@@ -19,12 +19,12 @@ var status = new(bool)
 func (d *dictionary) Init() error {
 	*status = true
 	dictionaries := []model.SysDictionary{
-		{Model: global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#Sex}"), Type: "sex", Status: status, Desc: global.I18n.T("{#SexDictionary}")},
-		{Model: global.Model{ID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeInt}"), Type: "int", Status: status, Desc: global.I18n.T("{#DBTypeInt}")},
-		{Model: global.Model{ID: 3, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeDateTime}"), Type: "time.Time", Status: status, Desc: global.I18n.T("{#DBTypeDateTime}")},
-		{Model: global.Model{ID: 4, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeFloat}"), Type: "float64", Status: status, Desc: global.I18n.T("{#DBTypeFloat}")},
-		{Model: global.Model{ID: 5, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeString}"), Type: "string", Status: status, Desc: global.I18n.T("{#DBTypeString}")},
-		{Model: global.Model{ID: 6, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("{#DBTypeBool}"), Type: "bool", Status: status, Desc: global.I18n.T("{#DBTypeBool}")},
+		{Model: global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("Sex"), Type: "sex", Status: status, Desc: global.I18n.T("SexDictionary")},
+		{Model: global.Model{ID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("DBTypeInt"), Type: "int", Status: status, Desc: global.I18n.T("DBTypeInt")},
+		{Model: global.Model{ID: 3, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("DBTypeDateTime"), Type: "time.Time", Status: status, Desc: global.I18n.T("DBTypeDateTime")},
+		{Model: global.Model{ID: 4, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("DBTypeFloat"), Type: "float64", Status: status, Desc: global.I18n.T("DBTypeFloat")},
+		{Model: global.Model{ID: 5, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("DBTypeString"), Type: "string", Status: status, Desc: global.I18n.T("DBTypeString")},
+		{Model: global.Model{ID: 6, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: global.I18n.T("DBTypeBool"), Type: "bool", Status: status, Desc: global.I18n.T("DBTypeBool")},
 	}
 	return global.Db.Transaction(func(tx *gorm.DB) error {
 		if tx.Where("id IN ?", []int{1, 6}).Find(&[]model.SysDictionary{}).RowsAffected == 2 {
