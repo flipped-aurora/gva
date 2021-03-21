@@ -1,9 +1,9 @@
 package data
 
 import (
-	extra "github.com/flipped-aurora/gva/data/gfva/extra"
-	system "github.com/flipped-aurora/gva/data/gfva/system"
-	workflow "github.com/flipped-aurora/gva/data/gfva/workflow"
+	extra "github.com/flipped-aurora/gva/data/gf/extra"
+	system "github.com/flipped-aurora/gva/data/gf/system"
+	workflow "github.com/flipped-aurora/gva/data/gf/workflow"
 	"github.com/flipped-aurora/gva/interfaces"
 )
 
