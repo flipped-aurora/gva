@@ -15,7 +15,7 @@ func GfVueAdmin(options ...data.Options) error {
 		for _, option := range options {
 			if option.Viper != nil {
 				global.Viper = option.Viper
-				global.I18n = gi18n.New(gi18n.Options{Path: "../i18n"})
+				global.I18n = gi18n.New(gi18n.Options{Path: "../../i18n"})
 				if language := global.Viper.GetString("system.language"); language != "" {
 					global.I18n.SetLanguage(language)
 				}
