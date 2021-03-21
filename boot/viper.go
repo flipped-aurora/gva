@@ -5,9 +5,14 @@ import (
 	"fmt"
 	"github.com/flipped-aurora/gva/constant"
 	"github.com/flipped-aurora/gva/global"
+	"github.com/gogf/gf/i18n/gi18n"
 	"github.com/spf13/viper"
 	"os"
 )
+
+func init() {
+	global.I18n = gi18n.New()
+}
 
 var Viper = new(_viper)
 
@@ -41,4 +46,10 @@ func (v *_viper) Initialize(path ...string) {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 	global.Viper = _v
+	if language := global.Viper.GetString("system.language"); language != "" {
+		global.I18n.SetLanguage(language)
+	}
+	if language := global.Viper.GetString("language"); language != "" {
+		global.I18n.SetLanguage(language)
+	}
 }
