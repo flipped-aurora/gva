@@ -17,8 +17,8 @@ package cmd
 
 import (
 	"github.com/flipped-aurora/gva/boot"
-	. "github.com/flipped-aurora/gva/data/gfva"
-	. "github.com/flipped-aurora/gva/data/gva"
+	gfvaData "github.com/flipped-aurora/gva/data/gfva"
+	gvaData "github.com/flipped-aurora/gva/data/gva"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
@@ -42,7 +42,7 @@ var initdbCmd = &cobra.Command{
 			boot.Mysql.Check()
 			boot.Mysql.Initialize()
 			if dbType == "mysql" {
-				if err := GinVueAdmin(); err == nil {
+				if err := gvaData.GinVueAdmin(); err == nil {
 					color.Info.Println("\n[Mysql] --> 初始化数据成功!\n")
 				}
 			}
@@ -52,7 +52,7 @@ var initdbCmd = &cobra.Command{
 			boot.Mysql.Check()
 			boot.Mysql.Initialize()
 			if dbType == "mysql" {
-				if err := GfVueAdmin(); err == nil {
+				if err := gfvaData.GfVueAdmin(); err == nil {
 					color.Info.Println("\n[Mysql] --> 初始化数据成功!\n")
 				}
 			}
