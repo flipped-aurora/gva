@@ -9,7 +9,7 @@ init:
 	go env -w GOPROXY=https://goproxy.io,direct
 
 gva: init
-	go build -o ${GVA} cmd/gva/main.go
+	go build -o ${GVA} main.go
 
 linux-build: init
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${GVA} cmd/gva/main.go
