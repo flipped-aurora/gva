@@ -1,7 +1,6 @@
 package main
 
 import (
-	"embed"
 	"encoding/json"
 	"fmt"
 	"github.com/flipped-aurora/gva/boot"
@@ -20,8 +19,6 @@ import (
 	"runtime"
 )
 
-//go:embed dist
-var fs embed.FS
 
 func main() {
 	args := make([]string, 0, 1)
@@ -29,9 +26,9 @@ func main() {
 		args = append(args, "--class=Lorca")
 	}
 	dir, _ := os.Getwd()
-	path := filepath.Join(dir, "server", "dist")
+	path := filepath.Join(dir, "dist")
 	//file, _ := os.Open(path + "index.html")
-
+	fmt.Println(path)
 	ui, err := lorca.New("", path, 1920, 1080, args...)
 	if err != nil {
 		log.Fatal(err)
