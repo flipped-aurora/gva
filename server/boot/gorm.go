@@ -47,7 +47,9 @@ func (m *_mysql) Initialize() {
 		SkipInitializeWithVersion: false,               // 根据当前 MySQL 版本自动配置
 	}), _config)
 	if m.err != nil {
-		if m.err = global.Config.CreateTable(); m.err != nil {
+		fmt.Println()
+		fmt.Println(global.Config.Dsn())
+		if err := global.Config.CreateTable(); err != nil {
 			color.Debug.Printf("[%s] --> 创建数据库失败!", global.Config.DbType)
 		} else {
 			m.Initialize()

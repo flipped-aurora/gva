@@ -22,18 +22,16 @@ type Model struct {
 }
 
 type System struct {
-	DbType    string `json:"db_type"`
-	Language  string `json:"language"`
-	FrameType string `json:"frame_type"`
-
-	Host     string `json:"host"`
-	Port     string `json:"port"`
-	Config   string `json:"config"`
-	DbName   string `json:"db_name"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-
-	LogMode bool `json:"log_mode"`
+	DbType    string `json:"db_type" form:"db_type"`
+	Language  string `json:"language" form:"language"`
+	FrameType string `json:"frame_type" form:"frame_type"`
+	Host      string `json:"host" form:"host"`
+	Port      string `json:"port" form:"port"`
+	Config    string `json:"config" form:"config"`
+	DbName    string `json:"db_name" form:"db_name"`
+	Username  string `json:"username" form:"username"`
+	Password  string `json:"password" form:"password"`
+	LogMode   bool `json:"log_mode" form:"log_mode"`
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
@@ -42,7 +40,7 @@ func (s *System) Dsn() string {
 	if s.Config == "" {
 		s.Config = "charset=utf8mb4&parseTime=True&loc=Local"
 	}
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", s.Username, s.Password, s.Host, s.Host, s.DbName, s.Config)
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", s.Username, s.Password, s.Host, s.Port, s.DbName, s.Config)
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
