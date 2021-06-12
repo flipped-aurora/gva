@@ -39,5 +39,5 @@ jobs:
 
       - name: Test and Build
         run: |
-          go build -v -race
+          go build -tags "postgres" -v -race cmd/main.go
         working-directory: ./server
