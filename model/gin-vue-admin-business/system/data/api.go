@@ -1,8 +1,6 @@
-package data
+package model
 
 import (
-	"errors"
-	"github.com/flipped-aurora/gva/library/fmt"
 	"github.com/flipped-aurora/gva/library/global"
 	model "github.com/flipped-aurora/gva/model/gin-vue-admin-business/system"
 	_errors "github.com/pkg/errors"
@@ -14,9 +12,12 @@ var Api = new(api)
 
 type api struct{}
 
-// DataInit system_apis 表数据初始化
-// Author [SliverHorn](https://github.com/SliverHorn)
-func (a *api) DataInit() error {
+func (a *api) TableName() string {
+	var entity model.Api
+	return entity.TableName()
+}
+
+func (a *api) Initialize() error {
 	entities := []model.Api{
 		// base
 		{Model: global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Path: "/base/login", Method: "POST", ApiGroup: "base", Description: "用户登录"},
@@ -113,16 +114,16 @@ func (a *api) DataInit() error {
 		{Model: global.Model{ID: 74, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Path: "/customer/customerList", Method: "GET", ApiGroup: "客户", Description: "获取客户列表"},
 	}
 
-	var entity model.Api
-	if errors.Is(global.Db.Where("id = ?", 74).First(&entity).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
-		fmt.Printf(fmt.InitDataExist, "postgres", entity.TableName())
-		return nil
-	}
-
 	if err := global.Db.Create(&entities).Error; err != nil { // 创建 model.User 初始化数据
-		return _errors.Wrap(err, entity.TableName()+"表数据初始化失败!")
+		return _errors.Wrap(err, a.TableName()+"表数据初始化失败!")
 	}
-	fmt.Printf(fmt.InitDataSuccess, "postgres", entity.TableName())
 
 	return nil
+}
+
+func (a *api) CheckDataExist() bool {
+	if _errors.Is(global.Db.Where("id = ?", 74).First(&model.Api{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+		return false
+	}
+	return true
 }

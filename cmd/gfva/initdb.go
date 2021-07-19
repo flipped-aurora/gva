@@ -33,6 +33,7 @@ var initdbCmd = &cobra.Command{
 	Short: "flipped-aurora/gf-vue-admin/server初始化数据",
 	Long:  `flipped-aurora/gf-vue-admin/server初始化数据适配数据库情况: 1. mysql完美适配, 2. postgresql未适配, 3. sqlite未适配, 4. sqlserver未适配`,
 	Run: func(cmd *cobra.Command, args []string) {
+		path, _ := cmd.Flags().GetString("path")
 		input := answer.Frame{}
 		if err := survey.Ask(question.Database, &input); err != nil {
 			color.Warn.Printf("[cobra] --> 获取用户输入失败! error:%v\n", err)
@@ -41,24 +42,12 @@ var initdbCmd = &cobra.Command{
 		case "gf-vue-admin":
 		case "gin-vue-admin":
 		case "gin-vue-admin-business":
-		default:
-
-		}
-		frame, _ := cmd.Flags().GetString("frame")
-		path, _ := cmd.Flags().GetString("path")
-		if frame == "gf" {
 			boot.Viper.Initialize(path)
 			boot.Zap.Initialize()
 			internal.DbResolver.Database()
-			internal.DbResolver.Data()
+			internal.DbResolver.DataInitialize()
+		default:
 
-			//internal.Mysql.Check()
-			//boot.DbResolver.Initialize()
-			//if global.Config.System.DbType == "mysql" {
-			//	if err := data.Initialize(); err != nil {
-			//		color.Info.Println("\n[Mysql] --> 初始化数据成功!\n")
-			//	}
-			//}
 		}
 		return
 	},

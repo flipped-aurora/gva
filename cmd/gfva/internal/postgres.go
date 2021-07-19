@@ -8,9 +8,9 @@ import (
 	"github.com/flipped-aurora/gva/answer"
 	"github.com/flipped-aurora/gva/boot"
 	"github.com/flipped-aurora/gva/cmd/gfva/internal/postgres"
-	data "github.com/flipped-aurora/gva/data/postgres/gfva/system"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
+	model "github.com/flipped-aurora/gva/model/gin-vue-admin-business/system/data"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
 	"os"
@@ -65,11 +65,18 @@ func (p *_postgres) Database() {
 	}
 }
 
-func (p *_postgres) Data() {
-	err := interfaces.PostgresInitDb(
-		data.Api,
+func (p *_postgres) DataInitialize() {
+	_ = interfaces.DataInitialize("postgres",
+		model.Api,
+		model.User,
+		model.Menu,
+		model.Casbin,
+		model.Casbin,
+		model.Authority,
+		model.Dictionary,
+		model.AuthorityMenu,
+		model.AuthoritiesMenus,
+		model.DictionaryDetail,
+		model.AuthoritiesResources,
 	)
-	if err != nil {
-
-	}
 }

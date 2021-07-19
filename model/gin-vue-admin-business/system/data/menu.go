@@ -1,8 +1,6 @@
-package data
+package model
 
 import (
-	"errors"
-	"github.com/flipped-aurora/gva/library/fmt"
 	"github.com/flipped-aurora/gva/library/global"
 	model "github.com/flipped-aurora/gva/model/gin-vue-admin-business/system"
 	_errors "github.com/pkg/errors"
@@ -14,7 +12,12 @@ var Menu = new(menu)
 
 type menu struct{}
 
-func (m *menu) DataInit() error {
+func (m *menu) TableName() string {
+	var entity model.Menu
+	return entity.TableName()
+}
+
+func (m *menu) Initialize() error {
 	entities := []model.Menu{
 		{Model: global.Model{ID: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "dashboard", Name: "dashboard", Component: "view/dashboard/index.vue", Sort: 1, Meta: model.Meta{Title: "仪表盘", Icon: "setting"}},
 		{Model: global.Model{ID: 2, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "about", Name: "about", Component: "view/about/index.vue", Sort: 7, Meta: model.Meta{Title: "关于我们", Icon: "info"}},
@@ -42,17 +45,15 @@ func (m *menu) DataInit() error {
 		{Model: global.Model{ID: 24, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, Hidden: false, ParentId: "14", Path: "autoCodeAdmin", Name: "autoCodeAdmin", Component: "view/systemTools/autoCodeAdmin/index.vue", Sort: 1, Meta: model.Meta{Title: "自动化代码管理", Icon: "s-finance"}},
 		{Model: global.Model{ID: 25, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, Hidden: false, ParentId: "14", Path: "autoCodeEdit/:id", Name: "autoCodeEdit", Component: "view/systemTools/autoCode/index.vue", Sort: 0, Meta: model.Meta{Title: "自动化代码（复用）", Icon: "s-finance"}},
 	}
-
-	var entity model.Menu
-	if errors.Is(global.Db.Where("id = ?", 25).First(&entity).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
-		fmt.Printf(fmt.InitDataExist, "postgres", entity.TableName())
-		return nil
-	}
-
 	if err := global.Db.Create(&entities).Error; err != nil { // 创建 model.User 初始化数据
-		return _errors.Wrap(err, entity.TableName()+"表数据初始化失败!")
+		return _errors.Wrap(err, m.TableName()+"表数据初始化失败!")
 	}
-	fmt.Printf(fmt.InitDataSuccess, "postgres", entity.TableName())
-
 	return nil
+}
+
+func (m *menu) CheckDataExist() bool {
+	if _errors.Is(global.Db.Where("id = ?", 25).First(&model.Menu{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+		return false
+	}
+	return true
 }
