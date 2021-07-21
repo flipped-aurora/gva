@@ -3,10 +3,10 @@
 package model
 
 import (
+	"errors"
+	"fmt"
 	"github.com/flipped-aurora/gva/library/global"
 	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
-	_errors "github.com/pkg/errors"
-	"gorm.io/gorm"
 )
 
 var AuthorityMenu = new(authorityMenu)
@@ -26,7 +26,9 @@ func (a *authorityMenu) Initialize() error {
 }
 
 func (a *authorityMenu) CheckDataExist() bool {
-	if _errors.Is(global.Db.Unscoped().Find(&[]model.AuthorityMenu{}).Error, gorm.ErrRecordNotFound) {
+	err := global.Db.Unscoped().Find(&[]model.AuthorityMenu{}).Error
+	_err := errors.New(fmt.Sprintf("Error 1146: Table '%v.%v' doesn't exist",global.GinVueAdminConfig.Gorm.GetDbName(), a.TableName()))
+	if errors.As(err, &_err) {
 		return false
 	}
 	return true

@@ -47,6 +47,10 @@ var initdbCmd = &cobra.Command{
 				color.Warn.Printf("[cobra] --> 链接数据失败! error:%v\n", err)
 				return
 			}
+			if err := gorm.DbResolver.AutoMigrate(); err != nil {
+				color.Warn.Printf("[cobra] --> 结构体生成表结构! error:%v\n", err)
+				return
+			}
 			gorm.DbResolver.DataInitialize()
 		default:
 

@@ -42,7 +42,8 @@ type InitData interface {
 func DataInitialize(dbType string, inits ...InitData) error {
 	for i := 0; i < len(inits); i++ {
 		if inits[i].TableName() == "authority_menu" {
-			if inits[i].CheckDataExist() {
+			if k := inits[i].CheckDataExist(); k {
+				color.Info.Println(AuthorityMenu, k)
 				color.Info.Printf(AuthorityMenu, dbType, inits[i].TableName())
 				continue
 			}

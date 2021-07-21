@@ -4,7 +4,6 @@ import (
 	boot "github.com/flipped-aurora/gva/boot/gorm"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
-	system "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
 	"os"
@@ -28,19 +27,7 @@ func (g *_gorm) Initialize(i interfaces.Gorm) {
 	}
 	global.Db = db
 	if global.GinVueAdminConfig.Gorm.AutoMigrate {
-		err = global.Db.AutoMigrate(
-			new(system.Api),
-			new(system.Menu),
-			new(system.User),
-			new(system.Casbin),
-			new(system.Authority),
-			new(system.Dictionary),
-			new(system.JwtBlacklist),
-			new(system.MenuParameter),
-			new(system.OperationRecord),
-			new(system.DictionaryDetail),
-		)
-		if err != nil {
+		if err = i.AutoMigrate(); err != nil {
 			color.Error.Println("gorm注册表失败! err:", err)
 			os.Exit(0)
 		}

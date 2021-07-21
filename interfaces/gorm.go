@@ -14,6 +14,8 @@ type Gorm interface {
 	GetResolver() gorm.Plugin
 	// GetGormDialector 获取数据库的 gorm.Dialector
 	GetGormDialector() gorm.Dialector
+	// AutoMigrate 结构体生成表结构
+	AutoMigrate() error
 }
 
 type GormConfig interface {

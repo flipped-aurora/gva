@@ -9,6 +9,7 @@ import (
 	"github.com/flipped-aurora/gva/answer"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
+	system "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
 	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system/data"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
@@ -93,11 +94,11 @@ func (m *_mysql) GetConfigPath() string {
 func (m *_mysql) LinkDatabase() error {
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:                       global.GinVueAdminConfig.Gorm.GetMysqlDsn(), // DSN data source name
-		DefaultStringSize:         191,                                        // string 类型字段的默认长度
-		DisableDatetimePrecision:  true,                                       // 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
-		DontSupportRenameIndex:    true,                                       // 重命名索引时采用删除并新建的方式，MySQL 5.7 之前的数据库和 MariaDB 不支持重命名索引
-		DontSupportRenameColumn:   true,                                       // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
-		SkipInitializeWithVersion: false,                                      // 根据版本自动配置
+		DefaultStringSize:         191,                                         // string 类型字段的默认长度
+		DisableDatetimePrecision:  true,                                        // 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
+		DontSupportRenameIndex:    true,                                        // 重命名索引时采用删除并新建的方式，MySQL 5.7 之前的数据库和 MariaDB 不支持重命名索引
+		DontSupportRenameColumn:   true,                                        // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
+		SkipInitializeWithVersion: false,                                       // 根据版本自动配置
 	}), Gorm.GenerateConfig())
 	if err != nil {
 		if err = m.CheckDatabase(err); err != nil {
@@ -158,5 +159,20 @@ func (m *_mysql) DataInitialize() {
 		model.AuthoritiesMenus,
 		model.AuthoritiesResources,
 		model.AuthorityMenu,
+	)
+}
+
+func (m *_mysql) AutoMigrate() error {
+	return global.Db.AutoMigrate(
+		new(system.Api),
+		new(system.Menu),
+		new(system.User),
+		new(system.Casbin),
+		new(system.Authority),
+		new(system.Dictionary),
+		new(system.JwtBlacklist),
+		new(system.MenuParameter),
+		new(system.OperationRecord),
+		new(system.DictionaryDetail),
 	)
 }
