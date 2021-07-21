@@ -101,8 +101,22 @@ func (m *_mysql) LinkDatabase() error {
 		SkipInitializeWithVersion: false,                                       // 根据版本自动配置
 	}), Gorm.GenerateConfig())
 	if err != nil {
-		if err = m.CheckDatabase(err); err != nil {
-			return err
+		_err := errors.New(fmt.Sprintf("Unknown database '%v'", global.GinVueAdminConfig.Gorm.GetDbName()))
+		if errors.As(err, &_err) {
+			input := answer.Database{}
+			if err = survey.Ask(question.Database, &input); err != nil {
+				color.Warn.Printf("[mysql] --> 获取用户输入失败! error:%v\n", err)
+				return err
+			}
+			switch input.Database {
+			case "创建数据库":
+				err = m.CreateDatabase()
+				if err != nil {
+					return err
+				}
+			case "自行创建", "退出程序":
+				os.Exit(0)
+			}
 		}
 		return m.LinkDatabase()
 	}
@@ -112,7 +126,7 @@ func (m *_mysql) LinkDatabase() error {
 
 func (m *_mysql) CreateDatabase() error {
 	_sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", global.GinVueAdminConfig.Gorm.GetDbName())
-	db, err := sql.Open("driver", global.GinVueAdminConfig.Gorm.GetMysqlDatabaseDsn())
+	db, err := sql.Open("mysql", global.GinVueAdminConfig.Gorm.GetMysqlDatabaseDsn())
 	if err != nil {
 		return err
 	}
@@ -124,27 +138,6 @@ func (m *_mysql) CreateDatabase() error {
 	}
 	_, err = db.Exec(_sql)
 	return err
-}
-
-func (m *_mysql) CheckDatabase(err error) error {
-	message := fmt.Sprintf("Unknown database '%v'", global.GinVueAdminConfig.Gorm.GetDbName())
-	if errors.As(err, errors.New(message)) {
-		input := answer.Database{}
-		if err = survey.Ask(question.Database, &input); err != nil {
-			color.Warn.Printf("[mysql] --> 获取用户输入失败! error:%v\n", err)
-			return err
-		}
-		switch input.Database {
-		case "创建数据库":
-			err = m.CreateDatabase()
-			if err != nil {
-				return err
-			}
-		case "自行创建", "退出程序":
-			os.Exit(0)
-		}
-	}
-	return nil
 }
 
 func (m *_mysql) DataInitialize() {
