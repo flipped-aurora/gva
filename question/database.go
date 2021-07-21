@@ -8,8 +8,8 @@ var (
 			Name: "database",
 			Prompt: &survey.Select{
 				Message: "您的配置文件所配置的数据库不存在!",
-				Options: []string{"Link Start! gfva 为您创建数据库", "闪开!我自己来", "退出程序"},
-				Default: "Link Start! gfva 为您创建数据库",
+				Options: []string{"创建数据库", "自行创建", "退出程序"},
+				Default: "创建数据库",
 			},
 		},
 	}

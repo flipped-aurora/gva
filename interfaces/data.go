@@ -6,9 +6,11 @@ import (
 )
 
 const (
-	InitDataExist   = "\n[%v] --> %v 表的初始数据已存在!"
-	InitDataSuccess = "\n[%v] --> %v 表初始数据成功!"
+	InitSuccess     = "\n[%v] --> 初始数据成功!\n"
+	AuthorityMenu   = "\n[%v] --> %v 视图已存在!\n"
+	InitDataExist   = "\n[%v] --> %v 表的初始数据已存在!\n"
 	InitDataFailed  = "\n[%v] --> %v 表初始数据失败! \nerr: %+v\n"
+	InitDataSuccess = "\n[%v] --> %v 表初始数据成功!\n"
 )
 
 type InitDateFunc interface {
@@ -39,15 +41,24 @@ type InitData interface {
 
 func DataInitialize(dbType string, inits ...InitData) error {
 	for i := 0; i < len(inits); i++ {
-		if inits[i].CheckDataExist() {
-			color.Info.Printf(InitDataExist, dbType, inits[i].TableName())
-			return _errors.New(inits[i].TableName() + " 表的初始数据已存在!")
+		if inits[i].TableName() == "authority_menu" {
+			if inits[i].CheckDataExist() {
+				color.Info.Printf(AuthorityMenu, dbType, inits[i].TableName())
+				continue
+			}
+		} else {
+			if inits[i].CheckDataExist() {
+				color.Info.Printf(InitDataExist, dbType, inits[i].TableName())
+				return _errors.New(inits[i].TableName() + " 表的初始数据已存在!")
+			}
 		}
+
 		if err := inits[i].Initialize(); err != nil {
-			color.Info.Printf(InitDataExist, dbType, err)
+			color.Info.Printf(InitDataFailed, dbType, err)
 			return err
 		}
 		color.Info.Printf(InitDataSuccess, dbType, inits[i].TableName())
 	}
+	color.Info.Printf(InitSuccess, dbType)
 	return nil
 }

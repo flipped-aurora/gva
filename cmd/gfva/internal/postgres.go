@@ -10,7 +10,7 @@ import (
 	"github.com/flipped-aurora/gva/cmd/gfva/internal/postgres"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
-	model "github.com/flipped-aurora/gva/model/gin-vue-admin-business/system/data"
+	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system/data"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
 	"os"

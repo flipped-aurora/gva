@@ -39,5 +39,5 @@ jobs:
 
       - name: Test and Build
         run: |
-          go build -tags "postgres" -v -race cmd/main.go
+          go build -tags "mysql business" -v -race cmd/main.go
         working-directory: ./server

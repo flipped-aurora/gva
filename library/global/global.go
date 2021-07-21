@@ -1,16 +1,20 @@
 package global
 
 import (
-	config "github.com/flipped-aurora/gva/library/config/gfva"
+	gfva "github.com/flipped-aurora/gva/library/config/gfva"
+	business "github.com/flipped-aurora/gva/library/config/gin-vue-admin"
+	gva "github.com/flipped-aurora/gva/library/config/gva"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 	"time"
 )
 
 var (
-	Db     *gorm.DB
-	Viper  *viper.Viper
-	Config config.Config
+	Db                *gorm.DB
+	Viper             *viper.Viper
+	GvaConfig         gva.Config
+	GFVAConfig        gfva.Config
+	GinVueAdminConfig business.Config
 )
 
 type Model struct {
@@ -21,4 +25,6 @@ type Model struct {
 	UpdatedAt time.Time `orm:"updated_at" json:"UpdatedAt" gorm:"column:updated_at;comment:更新时间"` // 更新时间
 
 	DeletedAt gorm.DeletedAt `orm:"deleted_at" json:"-" gorm:"index;column:deleted_at;comment:删除时间"` // 删除时间
+
+	gorm.Model
 }

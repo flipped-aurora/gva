@@ -15,8 +15,8 @@ limitations under the License.
 */
 package main
 
-import "github.com/flipped-aurora/gva/cmd/gfva"
+import "github.com/flipped-aurora/gva/cmd/internal"
 
 func main() {
-	gfva.Execute()
+	internal.Execute()
 }
