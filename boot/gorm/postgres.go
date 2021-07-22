@@ -1,80 +1,104 @@
-//+build postgres
+//+build postgres,business
 
 package boot
 
 import (
+	"database/sql"
+	"fmt"
+	"github.com/AlecAivazis/survey/v2"
+	"github.com/flipped-aurora/gva/answer"
+	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
+	system "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
+	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system/data"
+	"github.com/flipped-aurora/gva/question"
+	"github.com/gookit/color"
+	"github.com/pkg/errors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/plugin/dbresolver"
+	"os"
 )
 
 var DbResolver = new(_postgres)
 
-type _postgres struct {
-	dsn string
+type _postgres struct{}
+
+func (p *_postgres) AutoMigrate() error {
+	return global.Db.AutoMigrate(
+		new(system.Api),
+		new(system.Menu),
+		new(system.User),
+		new(system.Casbin),
+		new(system.Authority),
+		new(system.Dictionary),
+		new(system.JwtBlacklist),
+		new(system.MenuParameter),
+		new(system.OperationRecord),
+		new(system.DictionaryDetail),
+	)
 }
 
-// GetSources 获取主库的 gorm.Dialector 切片对象
-// Author [SliverHorn](https://github.com/SliverHorn)
-func (p *_postgres) GetSources() (directories []gorm.Dialector) {
-	length := len(global.GinVueAdminConfig.Gorm.Dsn.Sources)
-	directories = make([]gorm.Dialector, 0, length)
-	for i := 0; i < length; i++ {
-		if !global.GinVueAdminConfig.Gorm.Dsn.Sources[i].IsEmpty() {
-			dsn := global.GinVueAdminConfig.Gorm.Dsn.Sources[i].GetDsn(global.GinVueAdminConfig.Gorm.Config)
-			if i == 0 {
-				p.dsn = dsn
-			}
-			directories = append(directories, postgres.Open(dsn))
-		} else {
-			continue
-		}
-	}
-	return directories
-}
-
-// GetReplicas 获取从库库的 gorm.Dialector 切片对象
-// Author [SliverHorn](https://github.com/SliverHorn)
-func (p *_postgres) GetReplicas() (directories []gorm.Dialector) {
-	length := len(global.GinVueAdminConfig.Gorm.Dsn.Replicas)
-	directories = make([]gorm.Dialector, 0, length)
-	for i := 0; i < length; i++ {
-		if !global.GinVueAdminConfig.Gorm.Dsn.Replicas[i].IsEmpty() {
-			dsn := global.GinVueAdminConfig.Gorm.Dsn.Replicas[i].GetDsn(global.GinVueAdminConfig.Gorm.Config)
-			directories = append(directories, postgres.Open(dsn))
-		} else {
-			continue
-		}
-	}
-	return directories
-}
-
-// GetResolver 通过主库与从库的链接组装 gorm.Plugin
-// Author [SliverHorn](https://github.com/SliverHorn)
-func (p *_postgres) GetResolver() gorm.Plugin {
-	sources := p.GetSources()
-	resolver := dbresolver.Register(dbresolver.Config{
-		Sources:  sources,
-		Replicas: p.GetReplicas(),
-		Policy:   dbresolver.RandomPolicy{}, // sources/replicas 负载均衡策略
-	})
-	resolver.SetMaxIdleConns(global.GinVueAdminConfig.Gorm.GetMaxOpenConnes())
-	resolver.SetMaxOpenConns(global.GinVueAdminConfig.Gorm.GetMaxOpenConnes())
-	resolver.SetConnMaxIdleTime(global.GinVueAdminConfig.Gorm.GetConnMaxIdleTime())
-	resolver.SetConnMaxLifetime(global.GinVueAdminConfig.Gorm.GetConnMaxLifetime())
-	return resolver
-}
-
-// GetGormDialector 获取数据库的 gorm.Dialector
-// Author [SliverHorn](https://github.com/SliverHorn)
-func (p *_postgres) GetGormDialector() gorm.Dialector {
-	return postgres.New(postgres.Config{
-		DSN:                  p.dsn,
+func (p *_postgres) LinkDatabase() error {
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DSN:                  global.GinVueAdminConfig.Gorm.GetDsn(),
 		PreferSimpleProtocol: false,
-	})
+	}), Gorm.GenerateConfig())
+	if err != nil {
+		_err := errors.New(fmt.Sprintf("failed to connect to `host=%v user=%v database=%v`: server error (FATAL: database \"%v\" does not exist (SQLSTATE 3D000))", global.GinVueAdminConfig.Gorm.GetHost(), global.GinVueAdminConfig.Gorm.GetUsername(), global.GinVueAdminConfig.Gorm.GetDbName(), global.GinVueAdminConfig.Gorm.GetDbName()))
+		if errors.As(err, &_err) {
+			input := answer.Database{}
+			if err = survey.Ask(question.Database, &input); err != nil {
+				color.Warn.Printf("[mysql] --> 获取用户输入失败! error:%v\n", err)
+				return err
+			}
+			switch input.Database {
+			case "创建数据库":
+				err = p.CreateDatabase()
+				if err != nil {
+					return err
+				}
+			case "自行创建", "退出程序":
+				os.Exit(0)
+			}
+			return p.LinkDatabase()
+		}
+		return err
+	}
+	global.Db = db
+	return nil
 }
 
 func (p *_postgres) GetConfigPath() string {
 	return "config/config.postgres.yaml"
+}
+
+func (p *_postgres) DataInitialize() {
+	_ = interfaces.DataInitialize(
+		model.Api,
+		model.User,
+		model.Menu,
+		model.Casbin,
+		model.Authority,
+		model.Dictionary,
+		model.DictionaryDetail,
+		model.AuthoritiesMenus,
+		model.AuthoritiesResources,
+		model.AuthorityMenu,
+	)
+}
+
+func (p *_postgres) CreateDatabase() error {
+	_sql := fmt.Sprintf("CREATE DATABASE %s", global.GinVueAdminConfig.Gorm.GetDbName())
+	db, err := sql.Open("postgres", global.GinVueAdminConfig.Gorm.GetDatabaseDsn())
+	if err != nil {
+		return err
+	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
+	if err = db.Ping(); err != nil {
+		return err
+	}
+	_, err = db.Exec(_sql)
+	return err
 }

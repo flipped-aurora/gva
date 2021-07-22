@@ -18,6 +18,14 @@ type Gorm interface {
 	AutoMigrate() error
 }
 
+type GormData interface {
+	AutoMigrate() error
+	LinkDatabase() error
+	GetConfigPath() string
+	DataInitialize()
+	CreateDatabase() error
+}
+
 type GormConfig interface {
 	IsEmpty() bool
 	GetDsn() string

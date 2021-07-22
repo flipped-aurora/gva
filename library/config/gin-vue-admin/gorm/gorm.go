@@ -14,27 +14,6 @@ type Gorm struct {
 	ConnMaxIdleTime time.Duration `mapstructure:"conn-max-idle-time" json:"connMaxIdleTime" yaml:"conn-max-idle-time"`
 }
 
-func (g *Gorm) GetMysqlDsn() string {
-	if len(g.Dsn.Sources) >= 1 {
-		return g.Dsn.Sources[0].Username + ":" + g.Dsn.Sources[0].Password + "@tcp(" + g.Dsn.Sources[0].Host + ":" + g.Dsn.Sources[0].Port + ")/" + g.Dsn.Sources[0].DbName + "?" + g.Config
-	}
-	return ""
-}
-
-func (g *Gorm) GetMysqlDatabaseDsn() string {
-	if len(g.Dsn.Sources) >= 1 {
-		return g.Dsn.Sources[0].Username + ":" + g.Dsn.Sources[0].Password + "@tcp(" + g.Dsn.Sources[0].Host + ":" + g.Dsn.Sources[0].Port + ")/"
-	}
-	return ""
-}
-
-func (g *Gorm) GetDbName() string {
-	if len(g.Dsn.Sources) >= 1 {
-		return g.Dsn.Sources[0].DbName
-	}
-	return ""
-}
-
 // GetMaxIdleConnes 获取 MaxIdleConnes 值, 局部不为0则取局部, 为0则取全局
 // Author: SliverHorn
 func (g *Gorm) GetMaxIdleConnes() int {

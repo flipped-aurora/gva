@@ -37,28 +37,3 @@ type InitData interface {
 	Initialize() error
 	CheckDataExist() bool
 }
-
-func DataInitialize(dbType string, inits ...InitData) error {
-	for i := 0; i < len(inits); i++ {
-		if inits[i].TableName() == "authority_menu" {
-			if k := inits[i].CheckDataExist(); k {
-				color.Info.Printf(AuthorityMenu, dbType, inits[i].TableName())
-				continue
-			}
-		} else {
-			if inits[i].CheckDataExist() {
-				color.Info.Printf(InitDataExist, dbType, inits[i].TableName())
-				continue
-			}
-		}
-
-		if err := inits[i].Initialize(); err != nil {
-			color.Info.Printf(InitDataFailed, dbType, err)
-			continue
-		} else{
-			color.Info.Printf(InitDataSuccess, dbType, inits[i].TableName())
-		}
-	}
-	color.Info.Printf(InitSuccess, dbType)
-	return nil
-}
