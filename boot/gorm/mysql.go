@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
+	_adapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/flipped-aurora/gva/answer"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
@@ -96,9 +97,9 @@ func (m *_mysql) AutoMigrate() error {
 		new(system.Api),
 		new(system.Menu),
 		new(system.User),
-		new(system.Casbin),
 		new(system.Authority),
 		new(system.Dictionary),
+		new(_adapter.CasbinRule),
 		new(system.JwtBlacklist),
 		new(system.MenuParameter),
 		new(system.OperationRecord),

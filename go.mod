@@ -4,9 +4,10 @@ go 1.16
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.2.12
+	github.com/casbin/gorm-adapter/v3 v3.3.2
 	github.com/gogf/gf v1.16.2
 	github.com/gookit/color v1.4.2
-	github.com/lib/pq v1.8.0 // indirect
+	github.com/lib/pq v1.8.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/satori/go.uuid v1.2.0

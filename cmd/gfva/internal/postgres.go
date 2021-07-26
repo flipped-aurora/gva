@@ -66,7 +66,7 @@ func (p *_postgres) Database() {
 }
 
 func (p *_postgres) DataInitialize() {
-	_ = interfaces.DataInitialize("postgres",
+	_ = interfaces.DataInitialize(
 		model.Api,
 		model.User,
 		model.Menu,
