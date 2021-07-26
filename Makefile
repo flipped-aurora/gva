@@ -18,6 +18,10 @@ business-mysql:
 	env
 	go build -tags "mysql business" -o ${BUSINESS} cmd/main.go
 
+business-postgres:
+	env
+	go build -tags "postgres business" -o ${BUSINESS} cmd/main.go
+
 windows-build:
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${BINARY}.exe
 

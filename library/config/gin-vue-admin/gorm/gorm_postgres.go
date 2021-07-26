@@ -11,7 +11,7 @@ func (g *Gorm) GetDsn() string {
 
 func (g *Gorm) GetDatabaseDsn() string {
 	if len(g.Dsn.Sources) >= 1 {
-		return "host=" + g.Dsn.Sources[0].Host + " user=" + g.Dsn.Sources[0].Username + " password=" + g.Dsn.Sources[0].Password
+		return "host=" + g.Dsn.Sources[0].Host + " user=" + g.Dsn.Sources[0].Username + " password=" + g.Dsn.Sources[0].Password + " sslmode=disable"
 	}
 	return ""
 }

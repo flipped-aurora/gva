@@ -13,6 +13,7 @@ import (
 	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system/data"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
+	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -96,9 +97,6 @@ func (p *_postgres) CreateDatabase() error {
 	defer func(db *sql.DB) {
 		_ = db.Close()
 	}(db)
-	if err = db.Ping(); err != nil {
-		return err
-	}
 	_, err = db.Exec(_sql)
 	return err
 }
