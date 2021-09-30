@@ -1,6 +1,7 @@
 package system
 
 import (
+	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
 	"github.com/flipped-aurora/gva/library/global"
 	"github.com/gookit/color"
 )
@@ -24,5 +25,6 @@ func (a *authorityMenu) Init() error {
 // TableName 定义表名
 // Author: [SliverHorn](https://github.com/SliverHorn)
 func (a *authorityMenu) TableName() string {
-	return "authority_menu 视图"
+	var entity system.AuthorityMenu
+	return entity.TableName()
 }
