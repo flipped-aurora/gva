@@ -1,6 +1,6 @@
 //+build mysql
 
-package gorm
+package boot
 
 import (
 	boot "github.com/flipped-aurora/gf-vue-admin/boot/gorm"

@@ -21,6 +21,7 @@ import (
 	"github.com/flipped-aurora/gva/answer"
 	"github.com/flipped-aurora/gva/boot"
 	gorm "github.com/flipped-aurora/gva/boot/gorm"
+	"github.com/flipped-aurora/gva/cmd/gfva"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
@@ -40,6 +41,16 @@ var initdbCmd = &cobra.Command{
 		}
 		switch input.Frame {
 		case "gf-vue-admin":
+			boot.Viper.Initialize(path)
+			if err := gfva.DbResolver.LinkDatabase(); err != nil {
+				color.Warn.Printf("[cobra] --> 链接数据失败! error:%v\n", err)
+				return
+			}
+			if err := gfva.DbResolver.AutoMigrate(); err != nil {
+				color.Warn.Printf("[cobra] --> 结构体生成表结构失败! error:%v\n", err)
+				return
+			}
+			gfva.DbResolver.DataInitialize()
 		case "gin-vue-admin":
 		case "gin-vue-admin-business":
 			boot.Viper.Initialize(path)

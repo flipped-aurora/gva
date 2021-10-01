@@ -1,5 +1,6 @@
 package internal
 
+/*
 import (
 	"database/sql"
 	"fmt"
@@ -212,3 +213,4 @@ func (m *_mysql) zero() {
 	}
 	color.Info.Println("\n[Mysql]--> 设置数据库零值失效成功")
 }
+*/
