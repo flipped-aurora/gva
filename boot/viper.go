@@ -3,6 +3,7 @@ package boot
 import (
 	"flag"
 	"fmt"
+	gfva "github.com/flipped-aurora/gf-vue-admin/library/global"
 	boot "github.com/flipped-aurora/gva/boot/gorm"
 	"github.com/flipped-aurora/gva/library/constant"
 	"github.com/flipped-aurora/gva/library/global"
@@ -47,7 +48,7 @@ func (v *_viper) Initialize(path ...string) {
 	if err := _v.ReadInConfig(); err != nil {
 		panic(fmt.Sprintf(`读取config.yaml文件失败, err: %v`, err))
 	}
-	if err := _v.Unmarshal(&global.GFVAConfig); err != nil {
+	if err := _v.Unmarshal(&gfva.Config); err != nil {
 		fmt.Println(`Json 序列化数据失败, err :`, err)
 	} else {
 		global.Viper = _v

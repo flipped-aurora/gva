@@ -1,4 +1,4 @@
-//+build postgres,business
+//+build postgres
 
 package boot
 

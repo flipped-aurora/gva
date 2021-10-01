@@ -1,6 +1,8 @@
 package system
 
 import (
+	"errors"
+	"fmt"
 	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
 	"github.com/flipped-aurora/gva/library/global"
 	"github.com/gookit/color"
@@ -12,7 +14,7 @@ type authorityMenu struct{}
 
 // Init authority_menu 视图创建
 func (a *authorityMenu) Init() error {
-	if global.Db.Raw("select * from authority_menu").RowsAffected > 0 {
+	if errors.As(global.Db.Find(&[]system.AuthorityMenu{}).Error, errors.New(fmt.Sprintf("Error 1146: Table '%v.%v' doesn't exist",global.GinVueAdminConfig.Gorm.GetDbName(), a.TableName()))) {
 		color.Danger.Println("\n[Mysql] --> authority_menu 视图已存在!")
 		return nil
 	}

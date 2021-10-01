@@ -1,9 +1,7 @@
 package global
 
 import (
-	gfva "github.com/flipped-aurora/gva/library/config/gfva"
 	business "github.com/flipped-aurora/gva/library/config/gin-vue-admin"
-	gva "github.com/flipped-aurora/gva/library/config/gva"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 	"time"
@@ -12,8 +10,6 @@ import (
 var (
 	Db                *gorm.DB
 	Viper             *viper.Viper
-	GvaConfig         gva.Config
-	GFVAConfig        gfva.Config
 	GinVueAdminConfig business.Config
 )
 

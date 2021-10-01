@@ -2,10 +2,12 @@ package system
 
 import (
 	"fmt"
-	system "github.com/flipped-aurora/gf-vue-admin/app/model"
+	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
 	"github.com/flipped-aurora/gva/library/global"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
+	"reflect"
 )
 
 var AuthoritiesMenus = new(authoritiesMenus)
@@ -66,7 +68,7 @@ func (a *authoritiesMenus) Init() error {
 			return errors.New(fmt.Sprintf("%v 表的初始数据已存在!", a.TableName()))
 		}
 		if err := tx.Create(&entities).Error; err != nil { // 遇到错误时回滚事务
-			return errors.Wrap(err, "%v 表初始化数据创建失败!")
+			return errors.Wrapf(err, "%v 表初始化数据创建失败!", a.TableName())
 		}
 		return nil
 	})
@@ -75,6 +77,11 @@ func (a *authoritiesMenus) Init() error {
 // TableName 定义表名
 // Author: [SliverHorn](https://github.com/SliverHorn)
 func (a *authoritiesMenus) TableName() string {
-	var entity system.AuthoritiesMenus
+	var entity system.Authority
+	types := reflect.TypeOf(entity)
+	if s, o := types.FieldByName("Menus"); o {
+		m1 := schema.ParseTagSetting(s.Tag.Get("gorm"), ";")
+		return m1["MANY2MANY"]
+	}
 	return entity.TableName()
 }

@@ -34,8 +34,3 @@ func (a *authority) TableName() string {
 	var entity system.Authority
 	return entity.TableName()
 }
-
-func (a *authority) CheckDataExist() bool {
-
-	return true
-}

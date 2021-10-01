@@ -1,4 +1,4 @@
-//+build mysql,business
+//+build mysql
 
 package boot
 
