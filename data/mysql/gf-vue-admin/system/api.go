@@ -4,11 +4,9 @@
 package system
 
 import (
-	"fmt"
 	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
 	"github.com/flipped-aurora/gva/library/global"
 	"github.com/pkg/errors"
-
 	"gorm.io/gorm"
 )
 
@@ -16,9 +14,12 @@ var Api = new(api)
 
 type api struct{}
 
-// Init apis 表数据初始化
-// Author: [SliverHorn](https://github.com/SliverHorn)
-func (a *api) Init() error {
+func (a *api) TableName() string {
+	var entity system.Api
+	return entity.TableName()
+}
+
+func (a *api) Initialize() error {
 	entities := []system.Api{
 		{ApiGroup: "base", Method: "POST", Path: "/base/login", Description: "用户登录(必选)"},
 
@@ -115,20 +116,15 @@ func (a *api) Init() error {
 		{ApiGroup: "excel", Method: "POST", Path: "/excel/exportExcel", Description: "导出excel"},
 		{ApiGroup: "excel", Method: "GET", Path: "/excel/downloadTemplate", Description: "下载excel模板"},
 	}
-	return global.Db.Transaction(func(tx *gorm.DB) error {
-		if tx.Where("id IN ?", []int{1, 81}).Find(&[]system.Api{}).RowsAffected == 2 {
-			return errors.New(fmt.Sprintf("%v 表的初始数据已存在!", a.TableName()))
-		}
-		if err := tx.Create(&entities).Error; err != nil { // 遇到错误时回滚事务
-			return errors.Wrapf(err, "%v 表初始化数据失败!", a.TableName())
-		}
-		return nil
-	})
+	if err := global.Db.Create(&entities).Error; err != nil {
+		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")
+	}
+	return nil
 }
 
-// TableName 定义表名
-// Author: [SliverHorn](https://github.com/SliverHorn)
-func (a *api) TableName() string {
-	var entity system.Api
-	return entity.TableName()
+func (a *api) CheckDataExist() bool {
+	if errors.Is(global.Db.Where("path = ? AND method = ?", "/excel/downloadTemplate", "GET").First(&system.AuthoritiesResources{}).Error, gorm.ErrRecordNotFound) {
+		return false
+	}
+	return true
 }

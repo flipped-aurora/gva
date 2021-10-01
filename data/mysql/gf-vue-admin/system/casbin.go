@@ -1,7 +1,6 @@
 package system
 
 import (
-	"fmt"
 	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
 	"github.com/flipped-aurora/gva/library/global"
 	"github.com/pkg/errors"
@@ -12,7 +11,12 @@ var Casbin = new(casbin)
 
 type casbin struct{}
 
-func (c *casbin) Init() error {
+func (c *casbin) TableName() string {
+	var entity system.Casbin
+	return entity.TableName()
+}
+
+func (c *casbin) Initialize() error {
 	entities := []system.Casbin{
 		{PType: "p", AuthorityId: "888", Method: "POST", Path: "/base/login"},
 		{PType: "p", AuthorityId: "888", Method: "POST", Path: "/user/register"},
@@ -190,19 +194,15 @@ func (c *casbin) Init() error {
 		{PType: "p", AuthorityId: "9528", Method: "POST", Path: "/autoCode/createTemp"},
 		{PType: "p", AuthorityId: "9528", Method: "GET", Path: "/user/getUserInfo"},
 	}
-	return global.Db.Transaction(func(tx *gorm.DB) error {
-		if !errors.Is(global.Db.Where(entities[len(entities)-1]).First(&system.Authority{}).Error, gorm.ErrRecordNotFound) {
-			return errors.New(fmt.Sprintf("%v 表数据初始数据已存在!", c.TableName()))
-		} // 判断是否存在数据
-
-		if err := tx.Create(&entities).Error; err != nil {
-			return errors.Wrapf(err, "%v 表数据初始化失败!", c.TableName())
-		} // 初始化数据
-		return nil
-	})
+	if err := global.Db.Create(&entities).Error; err != nil {
+		return errors.Wrap(err, c.TableName()+"表数据初始化失败!")
+	}
+	return nil
 }
 
-func (c *casbin) TableName() string {
-	var entity system.Casbin
-	return entity.TableName()
+func (c *casbin) CheckDataExist() bool {
+	if errors.Is(global.Db.Where(system.Casbin{PType: "p", AuthorityId: "9528", Method: "GET", Path: "/user/getUserInfo"}).First(&system.Casbin{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+		return false
+	}
+	return true
 }

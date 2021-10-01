@@ -12,6 +12,11 @@ var Authority = new(authority)
 
 type authority struct{}
 
+func (a *authority) TableName() string {
+	var entity system.Authority
+	return entity.TableName()
+}
+
 func (a *authority) Initialize() error {
 	entities := []system.Authority{
 		{AuthorityId: "9528", AuthorityName: "测试角色", ParentId: "0", DefaultRouter: "dashboard"},
@@ -30,7 +35,9 @@ func (a *authority) Initialize() error {
 	})
 }
 
-func (a *authority) TableName() string {
-	var entity system.Authority
-	return entity.TableName()
+func (a *authority) CheckDataExist() bool {
+	if errors.Is(global.Db.Where("authority_id = ?", "8881").First(&system.Authority{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+		return false
+	}
+	return true
 }

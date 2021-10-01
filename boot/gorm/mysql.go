@@ -8,10 +8,10 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	_adapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/flipped-aurora/gva/answer"
+	data "github.com/flipped-aurora/gva/data/mysql/gf-vue-admin/system"
 	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/library/global"
 	system "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
-	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system/data"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
 	"github.com/pkg/errors"
@@ -79,16 +79,16 @@ func (m *_mysql) CreateDatabase() error {
 
 func (m *_mysql) DataInitialize() {
 	_ = interfaces.DataInitialize(
-		model.Api,
-		model.User,
-		model.Menu,
-		model.Casbin,
-		model.Authority,
-		model.Dictionary,
-		model.DictionaryDetail,
-		model.AuthoritiesMenus,
-		model.AuthoritiesResources,
-		model.AuthorityMenu,
+		data.Api,
+		data.User,
+		data.Menu,
+		data.Casbin,
+		data.Authority,
+		data.Dictionary,
+		data.DictionaryDetail,
+		data.AuthoritiesMenus,
+		data.AuthoritiesResources,
+		data.AuthorityMenu,
 	)
 }
 
