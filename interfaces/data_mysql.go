@@ -6,7 +6,7 @@ import "github.com/gookit/color"
 
 func DataInitialize(inits ...InitData) error {
 	for i := 0; i < len(inits); i++ {
-		if inits[i].TableName() == "authority_menu" {
+		if inits[i].TableName() == "system_authority_menu" {
 			if k := inits[i].CheckDataExist(); k {
 				color.Info.Printf(AuthorityMenu, "mysql", inits[i].TableName())
 				continue

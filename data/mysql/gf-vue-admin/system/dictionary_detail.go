@@ -1,9 +1,9 @@
 package system
 
 import (
-	"github.com/flipped-aurora/gva/library/global"
-	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
-	_errors "github.com/pkg/errors"
+	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
+	"github.com/flipped-aurora/gf-vue-admin/library/global"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -12,12 +12,12 @@ var DictionaryDetail = new(dictionaryDetail)
 type dictionaryDetail struct{}
 
 func (d *dictionaryDetail) TableName() string {
-	var entity model.DictionaryDetail
+	var entity system.DictionaryDetail
 	return entity.TableName()
 }
 
 func (d *dictionaryDetail) Initialize() error {
-	entities := []model.DictionaryDetail{
+	entities := []system.DictionaryDetail{
 		{Model: global.Model{ID: 1}, Label: "smallint", Value: 1, Status: status, Sort: 1, DictionaryID: 2},
 		{Model: global.Model{ID: 2}, Label: "mediumint", Value: 2, Status: status, Sort: 2, DictionaryID: 2},
 		{Model: global.Model{ID: 3}, Label: "int", Value: 3, Status: status, Sort: 3, DictionaryID: 2},
@@ -49,7 +49,7 @@ func (d *dictionaryDetail) Initialize() error {
 }
 
 func (d *dictionaryDetail) CheckDataExist() bool {
-	if _errors.Is(global.Db.Where("id = ?", 23).First(&model.DictionaryDetail{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+	if errors.Is(global.Db.Where("id = ?", 23).First(&system.DictionaryDetail{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
 	return true

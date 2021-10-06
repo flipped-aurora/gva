@@ -108,8 +108,8 @@ github.com/envoyproxy/go-control-plane v0.9.9-0.20201210154907-fd9021fe5dad/go.m
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.12.0/go.mod h1:ELkj/draVOlAH/xkhN6mQ50Qd0MPOk5AAr3maGEBuJM=
-github.com/flipped-aurora/gf-vue-admin v0.0.0-20211001131212-6a7db94e844d h1:9F4Idv8zIlNTCcEJzCq3mB4/6/PQKx5H2OZF/q4uz90=
-github.com/flipped-aurora/gf-vue-admin v0.0.0-20211001131212-6a7db94e844d/go.mod h1:BYKR+vGZaerlanvtlm4alMMqPuejz+IlAgEmeVcGv2k=
+github.com/flipped-aurora/gf-vue-admin v0.0.0-20211006135820-4204576be573 h1:uerwzA+E+yyei5wMfgLNP647o7OxrrS8lkPx02lUOTQ=
+github.com/flipped-aurora/gf-vue-admin v0.0.0-20211006135820-4204576be573/go.mod h1:BYKR+vGZaerlanvtlm4alMMqPuejz+IlAgEmeVcGv2k=
 github.com/franela/goblin v0.0.0-20200105215937-c9ffbefa60db/go.mod h1:7dvUGVsVBjqR7JHJk0brhHOZYGmfBYOrK0ZhYMEtBr4=
 github.com/franela/goreq v0.0.0-20171204163338-bcd34c9993f8/go.mod h1:ZhphrRTfi2rbfLwlschooIH4+wKKDR4Pdxhh+TRoA20=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=

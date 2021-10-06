@@ -5,7 +5,7 @@ package system
 
 import (
 	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
-	"github.com/flipped-aurora/gva/library/global"
+	"github.com/flipped-aurora/gf-vue-admin/library/global"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -123,7 +123,7 @@ func (a *api) Initialize() error {
 }
 
 func (a *api) CheckDataExist() bool {
-	if errors.Is(global.Db.Where("path = ? AND method = ?", "/excel/downloadTemplate", "GET").First(&system.AuthoritiesResources{}).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.Db.Where("path = ? AND method = ?", "/excel/downloadTemplate", "GET").First(&system.Api{}).Error, gorm.ErrRecordNotFound) {
 		return false
 	}
 	return true

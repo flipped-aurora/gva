@@ -14,6 +14,10 @@ env:
 	go get -u github.com/flipped-aurora/gva@master
 	@gva initdb -f gf
 
+gf-vue-admin-mysql:
+	@if [ -f ${GFVA} ] ; then rm ${GFVA} ; fi
+	go build -tags "mysql" -o ${GFVA} cmd/main.go
+
 business-mysql:
 	env
 	go build -tags "mysql business" -o ${BUSINESS} cmd/main.go

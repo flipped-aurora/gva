@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	_adapter "github.com/casbin/gorm-adapter/v3"
+	"github.com/flipped-aurora/gf-vue-admin/library/global"
 	"github.com/flipped-aurora/gva/answer"
 	data "github.com/flipped-aurora/gva/data/mysql/gf-vue-admin/system"
 	"github.com/flipped-aurora/gva/interfaces"
-	"github.com/flipped-aurora/gva/library/global"
 	system "github.com/flipped-aurora/gva/model/gin-vue-admin/system"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
@@ -30,7 +30,7 @@ func (m *_mysql) GetConfigPath() string {
 
 func (m *_mysql) LinkDatabase() error {
 	db, err := gorm.Open(mysql.New(mysql.Config{
-		DSN:                       global.GinVueAdminConfig.Gorm.GetDsn(), // DSN data source name
+		DSN:                       global.Config.Gorm.Dsn.GetDefaultDsn(global.Config.Gorm.Config), // DSN data source name
 		DefaultStringSize:         191,                                    // string 类型字段的默认长度
 		DisableDatetimePrecision:  true,                                   // 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
 		DontSupportRenameIndex:    true,                                   // 重命名索引时采用删除并新建的方式，MySQL 5.7 之前的数据库和 MariaDB 不支持重命名索引
@@ -38,7 +38,7 @@ func (m *_mysql) LinkDatabase() error {
 		SkipInitializeWithVersion: false,                                  // 根据版本自动配置
 	}), Gorm.GenerateConfig())
 	if err != nil {
-		_err := errors.New(fmt.Sprintf("Unknown database '%v'", global.GinVueAdminConfig.Gorm.GetDbName()))
+		_err := errors.New(fmt.Sprintf("Unknown database '%v'", global.Config.Gorm.Dsn.GetDefaultDbName()))
 		if errors.As(err, &_err) {
 			input := answer.Database{}
 			if err = survey.Ask(question.Database, &input); err != nil {
@@ -62,8 +62,8 @@ func (m *_mysql) LinkDatabase() error {
 }
 
 func (m *_mysql) CreateDatabase() error {
-	_sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", global.GinVueAdminConfig.Gorm.GetDbName())
-	db, err := sql.Open("mysql", global.GinVueAdminConfig.Gorm.GetDatabaseDsn())
+	_sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", global.Config.Gorm.Dsn.GetDefaultDbName())
+	db, err := sql.Open("mysql", global.Config.Gorm.Dsn.GetDefaultDsn(global.Config.Gorm.Config))
 	if err != nil {
 		return err
 	}

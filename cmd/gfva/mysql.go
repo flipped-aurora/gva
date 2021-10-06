@@ -11,8 +11,8 @@ import (
 	"github.com/flipped-aurora/gf-vue-admin/boot/gorm"
 	"github.com/flipped-aurora/gf-vue-admin/library/global"
 	"github.com/flipped-aurora/gva/answer"
+	data "github.com/flipped-aurora/gva/data/mysql/gf-vue-admin/system"
 	"github.com/flipped-aurora/gva/interfaces"
-	model "github.com/flipped-aurora/gva/model/gin-vue-admin/system/data"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
 	"gorm.io/driver/mysql"
@@ -63,7 +63,7 @@ func (m *_mysql) LinkDatabase() error {
 
 func (m *_mysql) CreateDatabase() error {
 	_sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", global.Config.Gorm.Dsn.GetDefaultDbName())
-	db, err := sql.Open("mysql", global.Config.Gorm.Dsn.GetDefaultDsn(global.Config.Gorm.Config))
+	db, err := sql.Open("mysql", global.Config.Gorm.Dsn.GetEmptyDsn())
 	if err != nil {
 		return err
 	}
@@ -79,16 +79,16 @@ func (m *_mysql) CreateDatabase() error {
 
 func (m *_mysql) DataInitialize() {
 	_ = interfaces.DataInitialize(
-		model.Api,
-		model.User,
-		model.Menu,
-		model.Casbin,
-		model.Authority,
-		model.Dictionary,
-		model.DictionaryDetail,
-		model.AuthoritiesMenus,
-		model.AuthoritiesResources,
-		model.AuthorityMenu,
+		data.Api,
+		data.User,
+		data.Menu,
+		data.Casbin,
+		data.Authority,
+		data.Dictionary,
+		data.DictionaryDetail,
+		data.AuthoritiesMenus,
+		data.AuthoritiesResources,
+		data.AuthorityMenu,
 	)
 }
 
