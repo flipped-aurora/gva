@@ -85,10 +85,11 @@ func (m *_mysql) DataInitialize() {
 		data.Casbin,
 		data.Authority,
 		data.Dictionary,
+		data.AuthorityMenu,
+		data.UserAuthority,
 		data.DictionaryDetail,
 		data.AuthoritiesMenus,
 		data.AuthoritiesResources,
-		data.AuthorityMenu,
 	)
 }
 
