@@ -14,9 +14,14 @@ env:
 	go get -u github.com/flipped-aurora/gva@master
 	@gva initdb -f gf
 
-gf-vue-admin-mysql:
-	@if [ -f ${GFVA} ] ; then rm ${GFVA} ; fi
-	go build -tags "mysql" -o ${GFVA} cmd/main.go
+gf-vue-admin-mac-mysql:
+	@if [ -f ${GFVA}-mac ] ; then rm ${GFVA}-mac ; fi
+	go build -tags "mysql" -o ${GFVA}-mac cmd/main.go
+
+gf-vue-admin-windows-mysql:
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64
+	@if [ -f ${GFVA}-windows.exe ] ; then rm ${GFVA}-windows.exe ; fi
+	go build -tags "mysql" -o ${GFVA}-windows.exe cmd/main.go
 
 business-mysql:
 	env

@@ -26,6 +26,12 @@ func (u *user) Initialize() error {
 		{Uuid: uuid.NewV4().String(), Username: "a303176530", Password: "123456", Nickname: "QMPlusUser", Avatar: "https://qmplusimg.henrongyi.top/1572075907logo.png", AuthorityId: "9528"},
 	}
 
+	for i := 0; i < len(entities); i++ {
+		if err := entities[i].EncryptedPassword(); err != nil {
+			return errors.Wrap(err, "用户密码加密失败!")
+		}
+	}
+
 	if err := global.Db.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, u.TableName()+"表数据初始化失败!")
 	}
