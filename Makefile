@@ -1,12 +1,16 @@
 GVA = "gva"
-GFVA = "gfva"
+GfVueAdmin = "gf-vue-admin"
+GfVueAdminMysqlMac = "gf-vue-admin-mysql-mac"
+GfVueAdminMysqlLinux = "gf-vue-admin-mysql-linux"
+GfVueAdminMysqlWindows = "gf-vue-admin-mysql-windows.exe"
+
 BUSINESS = "gin-vue-admin"
 
 gfva:
 	go env -w GO111MODULE=on
 	go env -w GOPROXY=https://goproxy.io,direct
-	go build -o ${GFVA} cmd/gfva/main.go
-	@if [ -f ${GFVA} ] ; then ./${GFVA} initdb && rm ${GFVA} ; fi
+	go build -o ${GfVueAdmin} cmd/gfva/main.go
+	@if [ -f ${GfVueAdmin} ] ; then ./${GfVueAdmin} initdb && rm ${GfVueAdmin} ; fi
 
 env:
 	go env -w GO111MODULE=on
@@ -14,14 +18,19 @@ env:
 	go get -u github.com/flipped-aurora/gva@master
 	@gva initdb -f gf
 
-gf-vue-admin-mac-mysql:
-	@if [ -f ${GFVA}-mac ] ; then rm ${GFVA}-mac ; fi
-	go build -tags "mysql" -o ${GFVA}-mac cmd/main.go
+gf-vue-admin-mysql-mac:
+	@if [ -f ${GfVueAdminMysqlMac} ] ; then rm ${GfVueAdminMysqlMac} ; fi
+	go build -tags "mysql" -o ${GfVueAdminMysqlMac} cmd/main.go
 
-gf-vue-admin-windows-mysql:
+gf-vue-admin-mysql-linux:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+	@if [ -f ${GfVueAdminMysqlLinux} ] ; then rm ${GfVueAdminMysqlLinux} ; fi
+	go build -tags "mysql" -o ${GfVueAdminMysqlLinux} cmd/main.go
+
+gf-vue-admin-mysql-windows:
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64
-	@if [ -f ${GFVA}-windows.exe ] ; then rm ${GFVA}-windows.exe ; fi
-	go build -tags "mysql" -o ${GFVA}-windows.exe cmd/main.go
+	@if [ -f ${GfVueAdminMysqlWindows} ] ; then rm ${GfVueAdminMysqlWindows} ; fi
+	go build -tags "mysql" -o ${GfVueAdminMysqlWindows} cmd/main.go
 
 business-mysql:
 	env
@@ -49,7 +58,10 @@ check:
 
 clean:
 	@if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
-	@if [ -f ${GFVA} ] ; then rm ${GFVA} ; fi
+	@if [ -f ${GfVueAdmin} ] ; then rm ${GfVueAdmin} ; fi
+	@if [ -f ${GfVueAdminMysqlMac} ] ; then rm ${GfVueAdminMysqlMac} ; fi
+	@if [ -f ${GfVueAdminMysqlLinux} ] ; then rm ${GfVueAdminMysqlLinux} ; fi
+	@if [ -f ${GfVueAdminMysqlWindows} ] ; then rm ${GfVueAdminMysqlWindows} ; fi
 
 help:
 	@echo "make - 构建gfva终端工具并初始化数据,初始化数据后删除gfva终端工具,启动server项目"
