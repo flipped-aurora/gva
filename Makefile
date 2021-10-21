@@ -19,16 +19,23 @@ env:
 	@gva initdb -f gf
 
 gf-vue-admin-mysql-mac:
+	go env -w CGO_ENABLED=0
+	go env -w GOOS=darwin
+	go env -w GOARCH=amd64
 	@if [ -f ${GfVueAdminMysqlMac} ] ; then rm ${GfVueAdminMysqlMac} ; fi
 	go build -tags "mysql" -o ${GfVueAdminMysqlMac} cmd/main.go
 
 gf-vue-admin-mysql-linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+	go env -w CGO_ENABLED=0
+	go env -w GOOS=linux
+	go env -w GOARCH=amd64
 	@if [ -f ${GfVueAdminMysqlLinux} ] ; then rm ${GfVueAdminMysqlLinux} ; fi
 	go build -tags "mysql" -o ${GfVueAdminMysqlLinux} cmd/main.go
 
 gf-vue-admin-mysql-windows:
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64
+	go env -w CGO_ENABLED=0
+	go env -w GOOS=windows
+	go env -w GOARCH=amd64
 	@if [ -f ${GfVueAdminMysqlWindows} ] ; then rm ${GfVueAdminMysqlWindows} ; fi
 	go build -tags "mysql" -o ${GfVueAdminMysqlWindows} cmd/main.go
 
