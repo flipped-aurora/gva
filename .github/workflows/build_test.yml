@@ -35,10 +35,8 @@ jobs:
               curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
               dep ensure
           fi
-        working-directory: ./server
 
       - name: Test and Build
         run: |
           go build -tags "mysql" -v -race cmd/main.go
           go build -tags "postgres" -v -race cmd/main.go
-        working-directory: ./server
