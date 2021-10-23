@@ -18,9 +18,8 @@ package internal
 
 import (
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/flipped-aurora/gf-vue-admin/boot"
 	"github.com/flipped-aurora/gva/answer"
-	"github.com/flipped-aurora/gva/boot"
-	gorm "github.com/flipped-aurora/gva/boot/gorm"
 	"github.com/flipped-aurora/gva/cmd/gfva"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
@@ -52,19 +51,6 @@ var initdbCmd = &cobra.Command{
 			}
 			gfva.DbResolver.DataInitialize()
 		case "gin-vue-admin":
-		case "gin-vue-admin-business":
-			boot.Viper.Initialize(path)
-			if err := gorm.DbResolver.LinkDatabase(); err != nil {
-				color.Warn.Printf("[cobra] --> 链接数据失败! error:%v\n", err)
-				return
-			}
-			if err := gorm.DbResolver.AutoMigrate(); err != nil {
-				color.Warn.Printf("[cobra] --> 结构体生成表结构! error:%v\n", err)
-				return
-			}
-			gorm.DbResolver.DataInitialize()
-		default:
-
 		}
 		return
 	},
@@ -72,6 +58,6 @@ var initdbCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(initdbCmd)
-	initdbCmd.Flags().StringP("path", "p", gorm.DbResolver.GetConfigPath(), "自定配置文件路径(绝对路径)")
+	initdbCmd.Flags().StringP("path", "p", gfva.DbResolver.GetConfigPath(), "自定配置文件路径(绝对路径)")
 	initdbCmd.Flags().StringP("type", "t", "mysql", "可选参数为mysql、postgresql、sqlite, sqlserver不考虑不支持")
 }

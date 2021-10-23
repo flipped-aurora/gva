@@ -1,5 +1,9 @@
 .idea/
-log/
-/gva
-/gfva
-/gin-vue-admin
+gva
+gfva
+gf-vue-admin-mysql-mac
+gf-vue-admin-mysql-linux
+gf-vue-admin-mysql-windows
+gf-vue-admin-postgres-mac
+gf-vue-admin-postgres-linux
+gf-vue-admin-postgres-windows

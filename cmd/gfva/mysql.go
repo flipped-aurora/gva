@@ -1,4 +1,5 @@
-//+build mysql
+// go:build mysql
+// +build mysql
 
 package gfva
 
@@ -7,12 +8,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
 	"github.com/flipped-aurora/gf-vue-admin/boot/gorm"
 	"github.com/flipped-aurora/gf-vue-admin/library/global"
 	"github.com/flipped-aurora/gva/answer"
-	data "github.com/flipped-aurora/gva/data/mysql/gf-vue-admin/system"
-	"github.com/flipped-aurora/gva/interfaces"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
 	"gorm.io/driver/mysql"
@@ -22,10 +20,28 @@ import (
 
 var DbResolver = new(_mysql)
 
-type _mysql struct{}
+type _mysql struct {
+	resolver
+}
 
 func (m *_mysql) GetConfigPath() string {
 	return "config/config.mysql.yaml"
+}
+
+func (m *_mysql) CreateDatabase() error {
+	_sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", global.Config.Gorm.Dsn.GetDefaultDbName())
+	db, err := sql.Open("mysql", global.Config.Gorm.Dsn.GetEmptyDsn())
+	if err != nil {
+		return err
+	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
+	if err = db.Ping(); err != nil {
+		return err
+	}
+	_, err = db.Exec(_sql)
+	return err
 }
 
 func (m *_mysql) LinkDatabase() error {
@@ -59,51 +75,4 @@ func (m *_mysql) LinkDatabase() error {
 	}
 	global.Db = db
 	return nil
-}
-
-func (m *_mysql) CreateDatabase() error {
-	_sql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", global.Config.Gorm.Dsn.GetDefaultDbName())
-	db, err := sql.Open("mysql", global.Config.Gorm.Dsn.GetEmptyDsn())
-	if err != nil {
-		return err
-	}
-	defer func(db *sql.DB) {
-		_ = db.Close()
-	}(db)
-	if err = db.Ping(); err != nil {
-		return err
-	}
-	_, err = db.Exec(_sql)
-	return err
-}
-
-func (m *_mysql) DataInitialize() {
-	_ = interfaces.DataInitialize(
-		data.Api,
-		data.User,
-		data.Menu,
-		data.Casbin,
-		data.Authority,
-		data.Dictionary,
-		data.AuthorityMenu,
-		data.UserAuthority,
-		data.DictionaryDetail,
-		data.AuthoritiesMenus,
-		data.AuthoritiesResources,
-	)
-}
-
-func (m *_mysql) AutoMigrate() error {
-	return global.Db.AutoMigrate(
-		new(system.Api),
-		new(system.Menu),
-		new(system.User),
-		new(system.Casbin),
-		new(system.Authority),
-		new(system.Dictionary),
-		new(system.JwtBlacklist),
-		new(system.MenuParameter),
-		new(system.OperationRecord),
-		new(system.DictionaryDetail),
-	)
 }

@@ -3,8 +3,9 @@ GfVueAdmin = "gf-vue-admin"
 GfVueAdminMysqlMac = "gf-vue-admin-mysql-mac"
 GfVueAdminMysqlLinux = "gf-vue-admin-mysql-linux"
 GfVueAdminMysqlWindows = "gf-vue-admin-mysql-windows.exe"
-
-BUSINESS = "gin-vue-admin"
+GfVueAdminPostgresMac = "gf-vue-admin-postgres-mac"
+GfVueAdminPostgresLinux = "gf-vue-admin-postgres-linux"
+GfVueAdminPostgresWindows = "gf-vue-admin-postgres-windows.exe"
 
 gfva:
 	go env -w GO111MODULE=on
@@ -39,13 +40,27 @@ gf-vue-admin-mysql-windows:
 	@if [ -f ${GfVueAdminMysqlWindows} ] ; then rm ${GfVueAdminMysqlWindows} ; fi
 	go build -tags "mysql" -o ${GfVueAdminMysqlWindows} cmd/main.go
 
-business-mysql:
-	env
-	go build -tags "mysql business" -o ${BUSINESS} cmd/main.go
 
-business-postgres:
-	env
-	go build -tags "postgres business" -o ${BUSINESS} cmd/main.go
+gf-vue-admin-postgres-mac:
+	go env -w CGO_ENABLED=0
+	go env -w GOOS=darwin
+	go env -w GOARCH=amd64
+	@if [ -f ${GfVueAdminPostgresMac} ] ; then rm ${GfVueAdminPostgresMac} ; fi
+	go build -tags "postgres" -o ${GfVueAdminPostgresMac} cmd/main.go
+
+gf-vue-admin-postgres-linux:
+	go env -w CGO_ENABLED=0
+	go env -w GOOS=linux
+	go env -w GOARCH=amd64
+	@if [ -f ${GfVueAdminPostgresLinux} ] ; then rm ${GfVueAdminPostgresLinux} ; fi
+	go build -tags "postgres" -o ${GfVueAdminPostgresLinux} cmd/main.go
+
+gf-vue-admin-postgres-windows:
+	go env -w CGO_ENABLED=0
+	go env -w GOOS=windows
+	go env -w GOARCH=amd64
+	@if [ -f ${GfVueAdminPostgresWindows} ] ; then rm ${GfVueAdminPostgresWindows} ; fi
+	go build -tags "postgres" -o ${GfVueAdminPostgresWindows} cmd/main.go
 
 windows-build:
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${BINARY}.exe

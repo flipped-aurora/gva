@@ -1,12 +1,17 @@
+// go:build mysql
 // +build mysql
 
 package interfaces
 
-import "github.com/gookit/color"
+import (
+	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
+	"github.com/gookit/color"
+)
 
 func DataInitialize(inits ...InitData) error {
+	var entity system.AuthorityMenu
 	for i := 0; i < len(inits); i++ {
-		if inits[i].TableName() == "system_authority_menu" {
+		if inits[i].TableName() == entity.TableName() {
 			if k := inits[i].CheckDataExist(); k {
 				color.Info.Printf(AuthorityMenu, "mysql", inits[i].TableName())
 				continue
