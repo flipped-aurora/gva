@@ -40,7 +40,6 @@ gf-vue-admin-mysql-windows:
 	@if [ -f ${GfVueAdminMysqlWindows} ] ; then rm ${GfVueAdminMysqlWindows} ; fi
 	go build -tags "mysql" -o ${GfVueAdminMysqlWindows} cmd/main.go
 
-
 gf-vue-admin-postgres-mac:
 	go env -w CGO_ENABLED=0
 	go env -w GOOS=darwin

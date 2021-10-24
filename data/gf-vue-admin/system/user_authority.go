@@ -30,7 +30,7 @@ func (u *userAuthority) Initialize() error {
 }
 
 func (u *userAuthority) CheckDataExist() bool {
-	if errors.Is(global.Db.Where("user_id = ? AND authority_id", "888").First(&system.UseAuthority{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+	if errors.Is(global.Db.Where("user_id = ? AND authority_id = ?", 2, "888").First(&system.UseAuthority{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
 	return true

@@ -4,7 +4,7 @@
 package gfva
 
 import (
-	"database/sql"
+	"context"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	boot "github.com/flipped-aurora/gf-vue-admin/boot/gorm"
@@ -12,6 +12,8 @@ import (
 	"github.com/flipped-aurora/gva/answer"
 	"github.com/flipped-aurora/gva/question"
 	"github.com/gookit/color"
+	"github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4"
 	"github.com/pkg/errors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -25,22 +27,24 @@ type _postgres struct {
 }
 
 func (p *_postgres) GetConfigPath() string {
-	return "config/config.mysql.yaml"
+	return "config/config.postgres.yaml"
 }
 
 func (p *_postgres) CreateDatabase() error {
+	ctx := context.Background()
 	_sql := "CREATE DATABASE " + global.Config.Gorm.Dsn.GetDefaultDbName()
-	db, err := sql.Open("postgres", global.Config.Gorm.Dsn.GetEmptyDsn())
+	dsn := global.Config.Gorm.Dsn.GetEmptyDsn(global.Config.Gorm.Config)
+	db, err := pgx.Connect(ctx, dsn)
 	if err != nil {
 		return err
 	}
-	defer func(db *sql.DB) {
-		_ = db.Close()
-	}(db)
-	if err = db.Ping(); err != nil {
+	defer func() {
+		_ = db.Close(ctx)
+	}()
+	if err = db.Ping(ctx); err != nil {
 		return err
 	}
-	_, err = db.Exec(_sql)
+	_, err = db.Exec(ctx, _sql)
 	return err
 }
 
