@@ -26,7 +26,7 @@ func (a *authorityMenu) Initialize() error {
 		_authorityMenu system.AuthoritiesMenus
 	)
 	sql := "CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `@table_name` AS select `@menus`.id AS id, `@menus`.path AS path, `@menus`.icon AS icon, `@menus`.name AS name, `@menus`.sort AS sort, `@menus`.title AS title, `@menus`.hidden AS hidden, `@menus`.component AS component, `@menus`.parent_id AS parent_id, `@menus`.created_at AS created_at, `@menus`.updated_at AS updated_at, `@menus`.deleted_at AS deleted_at, `@menus`.keep_alive AS keep_alive, `@menus`.menu_level AS menu_level, `@menus`.default_menu AS default_menu, `@authorities_menus`.menu_id AS menu_id, `@authorities_menus`.authority_id AS authority_id from (`@authorities_menus` join `@menus` on ((`@authorities_menus`.menu_id = `@menus`.id)));"
-	sql = strings.Replace(sql, "@table_name", "system_authority_menu", -1)
+	sql = strings.Replace(sql, "@table_name", a.TableName(), -1)
 	sql = strings.Replace(sql, "@menus", menus.TableName(), -1)
 	sql = strings.Replace(sql, "@authorities_menus", _authorityMenu.TableName(), -1)
 	if err := global.Db.Exec(sql).Error; err != nil {
