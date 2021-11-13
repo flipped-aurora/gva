@@ -29,7 +29,7 @@ func (a *authority) Initialize() error {
 		} // 判断是否存在数据
 
 		if err := tx.Create(&entities).Error; err != nil {
-			return errors.Wrapf(err, "%v 表数据初始化失败!", a.TableName())
+			return errors.Wrapf(err, "%s表数据初始化失败!", a.TableName())
 		} // 初始化数据
 		return nil
 	})

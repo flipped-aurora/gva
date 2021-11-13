@@ -1,9 +1,11 @@
 GVA = "gva"
 GfVueAdmin = "gf-vue-admin"
 GfVueAdminMysqlMac = "gf-vue-admin-mysql-mac"
+GfVueAdminMysqlMacM1 = "gf-vue-admin-mysql-mac-m1"
 GfVueAdminMysqlLinux = "gf-vue-admin-mysql-linux"
 GfVueAdminMysqlWindows = "gf-vue-admin-mysql-windows.exe"
 GfVueAdminPostgresMac = "gf-vue-admin-postgres-mac"
+GfVueAdminPostgresMacM1= "gf-vue-admin-postgres-mac-m1"
 GfVueAdminPostgresLinux = "gf-vue-admin-postgres-linux"
 GfVueAdminPostgresWindows = "gf-vue-admin-postgres-windows.exe"
 
@@ -26,6 +28,10 @@ gf-vue-admin-mysql-mac:
 	@if [ -f ${GfVueAdminMysqlMac} ] ; then rm ${GfVueAdminMysqlMac} ; fi
 	go build -tags "mysql" -o ${GfVueAdminMysqlMac} cmd/main.go
 
+gf-vue-admin-mysql-mac-m1:
+	@if [ -f ${GfVueAdminMysqlMacM1} ] ; then rm ${GfVueAdminMysqlMacM1} ; fi
+	go build -tags "mysql" -o ${GfVueAdminMysqlMacM1} cmd/main.go
+
 gf-vue-admin-mysql-linux:
 	go env -w CGO_ENABLED=0
 	go env -w GOOS=linux
@@ -46,6 +52,10 @@ gf-vue-admin-postgres-mac:
 	go env -w GOARCH=amd64
 	@if [ -f ${GfVueAdminPostgresMac} ] ; then rm ${GfVueAdminPostgresMac} ; fi
 	go build -tags "postgres" -o ${GfVueAdminPostgresMac} cmd/main.go
+
+gf-vue-admin-postgres-mac-m1:
+	@if [ -f ${GfVueAdminPostgresMacM1} ] ; then rm ${GfVueAdminPostgresMacM1} ; fi
+	go build -tags "postgres" -o ${GfVueAdminPostgresMacM1} cmd/main.go
 
 gf-vue-admin-postgres-linux:
 	go env -w CGO_ENABLED=0

@@ -4,7 +4,8 @@ go 1.16
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.2.12
-	github.com/flipped-aurora/gf-vue-admin v1.0.0-alpha.5
+	github.com/flipped-aurora/gf-vue-admin v1.0.0
+	github.com/flipped-aurora/gin-vue-admin/server v0.0.0-20211025144914-5b6f6abb412b
 	github.com/gookit/color v1.4.2
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/mitchellh/go-homedir v1.1.0

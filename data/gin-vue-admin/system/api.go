@@ -1,8 +1,8 @@
 package system
 
 import (
-	"github.com/flipped-aurora/gf-vue-admin/app/model/system"
-	"github.com/flipped-aurora/gf-vue-admin/library/global"
+	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -12,13 +12,11 @@ var Api = new(api)
 type api struct{}
 
 func (a *api) TableName() string {
-	var entity system.Api
-	return entity.TableName()
+	return "sys_apis"
 }
 
 func (a *api) Initialize() error {
-	entities := []system.Api{
-		{ApiGroup: "base", Method: "POST", Path: "/base/login", Description: "用户登录(必选)"},
+	entities := []system.SysApi{{ApiGroup: "base", Method: "POST", Path: "/base/login", Description: "用户登录(必选)"},
 
 		{ApiGroup: "jwt", Method: "POST", Path: "/jwt/jsonInBlacklist", Description: "jwt加入黑名单(退出，必选)"},
 
@@ -114,14 +112,14 @@ func (a *api) Initialize() error {
 		{ApiGroup: "excel", Method: "POST", Path: "/excel/exportExcel", Description: "导出excel"},
 		{ApiGroup: "excel", Method: "GET", Path: "/excel/downloadTemplate", Description: "下载excel模板"},
 	}
-	if err := global.Db.Create(&entities).Error; err != nil {
-		return errors.Wrapf(err, "%s表数据初始化失败!", a.TableName())
+	if err := global.GVA_DB.Create(&entities).Error; err != nil {
+		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")
 	}
 	return nil
 }
 
 func (a *api) CheckDataExist() bool {
-	if errors.Is(global.Db.Where("path = ? AND method = ?", "/excel/downloadTemplate", "GET").First(&system.Api{}).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.GVA_DB.Where("path = ? AND method = ?", "/excel/downloadTemplate", "GET").First(&system.SysApi{}).Error, gorm.ErrRecordNotFound) {
 		return false
 	}
 	return true
